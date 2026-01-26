@@ -187,7 +187,7 @@
                             </select>
                         </div>
 
-                        <div>
+                        <div id="urgenceField" class="hidden">
                             <label for="urgence"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Urgence</label>
                             <select id="urgence" name="urgence"
@@ -198,7 +198,7 @@
                             </select>
                         </div>
 
-                        <div>
+                        <div id="deplacementField" class="hidden">
                             <label for="deplacement"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Déplacement
                                 nécessaire?</label>
@@ -223,10 +223,10 @@
                                 problème ou projet *</label>
                             <textarea id="description" name="description" required rows="6"
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none"
-                                placeholder="Décrivez en détail votre problème ou votre projet (ex: mon PC ne démarre plus, j'ai un écran bleu, je veux un PC gaming, etc.)"></textarea>
+                                placeholder="Décrivez en détail votre problème ou votre projet"></textarea>
                         </div>
 
-                        <div>
+                        <div id="budgetField" class="hidden">
                             <label for="budget"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Budget estimé
                                 (optionnel)</label>
@@ -449,6 +449,9 @@
 
         const serviceSelect = document.getElementById('service');
         const descriptionTextarea = document.getElementById('description');
+        const urgenceField = document.getElementById('urgenceField');
+        const deplacementField = document.getElementById('deplacementField');
+        const budgetField = document.getElementById('budgetField');
 
         const serviceData = {
             'reparation': {
@@ -472,14 +475,82 @@
                 description: 'Bonjour,\n\nMon PC affiche un écran bleu (BSOD) ou écran noir.\n\nFréquence du problème: [Toujours / Parfois / Au démarrage / etc.]\nMessage d\'erreur affiché: [Si vous vous en souvenez]\n\nMerci de m\'aider à résoudre ce problème.'
             },
             'diagnose': {
-                value: 'diagnose',
+                value: 'diagnostic',
+                description: 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / Virus suspectés / Comportement anormal / etc.]\n\nMerci de procéder à une analyse complète et de me proposer les solutions adaptées.'
+            },
+            'diagnostic': {
+                value: 'diagnostic',
                 description: 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / Virus suspectés / Comportement anormal / etc.]\n\nMerci de procéder à une analyse complète et de me proposer les solutions adaptées.'
             }
         };
 
+        // Fonction pour afficher/masquer les champs selon le service
+        function updateFormFields(serviceValue) {
+            // Masquer tous les champs d'abord
+            urgenceField.classList.add('hidden');
+            deplacementField.classList.add('hidden');
+            budgetField.classList.add('hidden');
+
+            // Logique conditionnelle selon le service
+            switch (serviceValue) {
+                case 'reparation':
+                    // Réparation: urgence, déplacement, description
+                    urgenceField.classList.remove('hidden');
+                    deplacementField.classList.remove('hidden');
+                    break;
+
+                case 'assemblage':
+                    // Assemblage: déplacement, description, budget
+                    deplacementField.classList.remove('hidden');
+                    budgetField.classList.remove('hidden');
+                    break;
+
+                case 'composants':
+                    // Composants: urgence, déplacement, description
+                    urgenceField.classList.remove('hidden');
+                    deplacementField.classList.remove('hidden');
+                    break;
+
+                case 'windows':
+                    // Windows: déplacement, description
+                    deplacementField.classList.remove('hidden');
+                    break;
+
+                case 'bluescreen':
+                    // Écran bleu/noir: urgence, déplacement, description
+                    urgenceField.classList.remove('hidden');
+                    deplacementField.classList.remove('hidden');
+                    break;
+
+                case 'diagnostic':
+                    // Diagnostic: urgence, déplacement, description
+                    urgenceField.classList.remove('hidden');
+                    deplacementField.classList.remove('hidden');
+                    break;
+
+                case 'autre':
+                    // Autre: tout afficher
+                    urgenceField.classList.remove('hidden');
+                    deplacementField.classList.remove('hidden');
+                    budgetField.classList.remove('hidden');
+                    break;
+
+                default:
+                    // Par défaut, tout masquer
+                    break;
+            }
+        }
+
+        // Écouter les changements de service
+        serviceSelect.addEventListener('change', function () {
+            updateFormFields(this.value);
+        });
+
+        // Pré-remplir si paramètre URL présent
         if (serviceParam && serviceData[serviceParam]) {
             serviceSelect.value = serviceData[serviceParam].value;
             descriptionTextarea.value = serviceData[serviceParam].description;
+            updateFormFields(serviceData[serviceParam].value);
 
             // Scroll vers le formulaire
             setTimeout(() => {
