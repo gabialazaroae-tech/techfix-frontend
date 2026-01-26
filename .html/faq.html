@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - TechFix Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7C3AED',
+                        secondary: '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+
+    <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="flex gap-6">
+                <a href="mailto:gabi.alazaroae@gmail.com" class="hover:underline">gabi.alazaroae@gmail.com</a>
+                <span>Lun - Ven: 9h00 - 18h00</span>
+            </div>
+            <div class="mt-2 md:mt-0">
+                <p class="italic">Service PC rapide et fiable à Ternat</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center">
+                    <div
+                        class="text-3xl font-bold bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent">
+                        TechFix
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Accueil</a>
+                    <a href="services.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Services</a>
+                    <a href="about.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">À
+                        propos</a>
+                    <a href="devis.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Devis</a>
+                    <a href="faq.html" class="text-violet-600 dark:text-violet-400 font-medium">FAQ</a>
+                    <a href="contact.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Contact</a>
+                </div>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <button type="button" id="darkModeToggle"
+                        class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                        aria-label="Basculer mode sombre">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path class="sun" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                            <path class="moon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
+                    </button>
+                    <a href="contact.html"
+                        class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition">
+                        Contactez-moi
+                    </a>
+                </div>
+
+                <button type="button" class="md:hidden text-gray-700 dark:text-gray-300" id="mobile-menu-btn"
+                    aria-label="Menu de navigation">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="hidden md:hidden mt-4 pb-4" id="mobile-menu">
+                <a href="index.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Accueil</a>
+                <a href="services.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Services</a>
+                <a href="about.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">À
+                    propos</a>
+                <a href="devis.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Devis</a>
+                <a href="faq.html" class="block py-2 text-violet-600 dark:text-violet-400 font-medium">FAQ</a>
+                <a href="contact.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Contact</a>
+                <div class="mt-4">
+                    <button type="button" id="darkModeToggleMobile"
+                        class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                        aria-label="Basculer mode sombre">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path class="sun" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section
+        class="relative bg-gradient-to-br from-violet-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 py-16 overflow-hidden transition-colors duration-300">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">Questions Fréquentes</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Trouvez rapidement les réponses à vos questions
+            </p>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto space-y-4">
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Combien coûte un
+                            diagnostic?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Le diagnostic est <strong
+                                class="text-gray-900 dark:text-white">totalement gratuit</strong>. Je prends le temps
+                            d'analyser votre problème et vous fournis un devis détaillé avant toute intervention. Vous
+                            ne payez que si vous acceptez le devis et que je procède à la réparation.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Quel est le délai de
+                            réparation?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">La plupart des réparations sont effectuées en
+                            <strong class="text-gray-900 dark:text-white">24 à 48 heures</strong>. Pour les cas urgents,
+                            je peux souvent intervenir le jour même. Les assemblages PC sur mesure prennent généralement
+                            2-3 jours selon la disponibilité des composants.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Proposez-vous des
+                            déplacements à domicile?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Oui, je peux me déplacer à votre domicile ou en
+                            entreprise. Les frais de déplacement sont de <strong
+                                class="text-gray-900 dark:text-white">0,50€ par kilomètre aller-retour</strong> calculés
+                            depuis Ternat. Pour certaines interventions simples, il est souvent plus économique de
+                            m'apporter votre PC directement.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Offrez-vous une garantie sur
+                            les réparations?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Oui, toutes mes interventions sont garanties. Les
+                            travaux effectués bénéficient d'une <strong class="text-gray-900 dark:text-white">garantie
+                                de 30 jours</strong> (hors mauvaise manipulation). Les pièces neuves installées
+                            conservent leur garantie constructeur.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Quels moyens de paiement
+                            acceptez-vous?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">J'accepte les paiements en <strong
+                                class="text-gray-900 dark:text-white">espèces, par virement bancaire et par
+                                Payconiq/Bancontact</strong>. Le paiement s'effectue après la réparation, une fois que
+                            vous êtes satisfait du travail effectué.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Pouvez-vous récupérer mes
+                            données si mon PC ne démarre plus?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Dans la plupart des cas, oui. Je peux récupérer vos
+                            données même si Windows ne démarre plus, sauf si le disque dur est physiquement endommagé.
+                            Je vous conseille toujours de faire des <strong
+                                class="text-gray-900 dark:text-white">sauvegardes régulières</strong> de vos fichiers
+                            importants pour éviter toute perte de données.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Fournissez-vous les pièces ou
+                            dois-je les acheter moi-même?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Les deux options sont possibles. Je peux <strong
+                                class="text-gray-900 dark:text-white">commander les pièces nécessaires</strong> pour
+                            vous aux meilleurs prix, ou vous pouvez les acheter vous-même si vous préférez. Je vous
+                            conseille sur les meilleurs choix selon votre budget et vos besoins.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Réparez-vous aussi les
+                            ordinateurs portables?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Je me spécialise principalement dans les <strong
+                                class="text-gray-900 dark:text-white">PC de bureau (desktop)</strong>. Pour les
+                            ordinateurs portables, je peux effectuer des interventions logicielles (installation
+                            Windows, virus, etc.) et certaines réparations matérielles simples (RAM, disque dur). Pour
+                            les réparations plus complexes sur laptop, je peux vous orienter vers des confrères
+                            spécialisés.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Proposez-vous un service de
+                            maintenance préventive?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Oui, je propose un <strong
+                                class="text-gray-900 dark:text-white">service de maintenance préventive</strong> qui
+                            inclut: nettoyage physique du PC, nettoyage logiciel, mise à jour des pilotes, vérification
+                            des températures, optimisation des performances. Idéal à faire 1-2 fois par an pour
+                            prolonger la durée de vie de votre PC.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Que se passe-t-il si le
+                            problème n'est pas réparable?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Si après diagnostic, la réparation n'est pas
+                            possible ou économiquement viable, je vous le dis honnêtement. Vous ne payez que le
+                            diagnostic (gratuit) et je vous <strong class="text-gray-900 dark:text-white">conseille sur
+                                les meilleures alternatives</strong>: achat d'occasion, assemblage PC neuf adapté à
+                            votre budget, ou récupération de vos données si possible.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden">
+                    <button type="button"
+                        class="faq-button w-full p-6 text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <span class="text-lg font-bold text-gray-900 dark:text-white pr-8">Êtes-vous disponible le
+                            weekend?</span>
+                        <svg class="w-6 h-6 text-violet-600 transform transition-transform faq-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600 dark:text-gray-400">Mes horaires principaux sont <strong
+                                class="text-gray-900 dark:text-white">du lundi au vendredi de 9h à 18h</strong>. Pour
+                            les cas urgents, je peux parfois me rendre disponible le weekend. N'hésitez pas à me
+                            contacter pour vérifier ma disponibilité.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">Vous ne trouvez pas votre réponse?</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+                N'hésitez pas à me contacter directement, je répondrai à toutes vos questions
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="tel:0470682927"
+                    class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition">
+                    Appelez:&nbsp;0470&nbsp;68&nbsp;29&nbsp;27
+                </a>
+                <a href="contact.html"
+                    class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition">
+                    Formulaire de Contact
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 dark:bg-black text-gray-300 py-12 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <div
+                        class="text-3xl font-bold bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent mb-4">
+                        TechFix
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Services informatiques professionnels à Ternat. Réparation, assemblage, maintenance et support
+                        pour tous vos problèmes informatiques.
+                    </p>
+                    <div class="space-y-2">
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Ternat, Belgique
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            gabi.alazaroae@gmail.com
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                </path>
+                            </svg>
+                            0470 68 29 27
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Liens Rapides</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-violet-400 transition">Accueil</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Services</a></li>
+                        <li><a href="about.html" class="hover:text-violet-400 transition">À propos</a></li>
+                        <li><a href="devis.html" class="hover:text-violet-400 transition">Devis</a></li>
+                        <li><a href="faq.html" class="hover:text-violet-400 transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-violet-400 transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="services.html#reparation" class="hover:text-violet-400 transition">Réparation
+                                PC</a></li>
+                        <li><a href="services.html#assemblage" class="hover:text-violet-400 transition">Assemblage
+                                PC</a></li>
+                        <li><a href="services.html#composants" class="hover:text-violet-400 transition">Composants</a>
+                        </li>
+                        <li><a href="services.html#windows" class="hover:text-violet-400 transition">Installation
+                                Windows</a></li>
+                        <li><a href="services.html#diagnose" class="hover:text-violet-400 transition">Diagnostic</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 TechFix Solutions - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+        const html = document.documentElement;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.classList.add('dark');
+        }
+
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        }
+
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const faqButtons = document.querySelectorAll('.faq-button');
+
+        faqButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('.faq-icon');
+
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+    </script>
+
+</body>
+
+</html>

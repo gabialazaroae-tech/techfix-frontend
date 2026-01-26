@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - TechFix Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7C3AED',
+                        secondary: '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+
+    <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="flex gap-6">
+                <a href="mailto:gabi.alazaroae@gmail.com" class="hover:underline">gabi.alazaroae@gmail.com</a>
+                <span>Lun - Ven: 9h00 - 18h00</span>
+            </div>
+            <div class="mt-2 md:mt-0">
+                <p class="italic">Service PC rapide et fiable à Ternat</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center">
+                    <div
+                        class="text-3xl font-bold bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent">
+                        TechFix
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Accueil</a>
+                    <a href="services.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Services</a>
+                    <a href="about.html" class="text-violet-600 dark:text-violet-400 font-medium">À propos</a>
+                    <a href="devis.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Devis</a>
+                    <a href="faq.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">FAQ</a>
+                    <a href="contact.html"
+                        class="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition">Contact</a>
+                </div>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <button type="button" id="darkModeToggle"
+                        class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                        aria-label="Basculer mode sombre">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path class="sun" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                            <path class="moon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
+                    </button>
+                    <a href="contact.html"
+                        class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition">
+                        Contactez-moi
+                    </a>
+                </div>
+
+                <button type="button" class="md:hidden text-gray-700 dark:text-gray-300" id="mobile-menu-btn"
+                    aria-label="Menu de navigation">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="hidden md:hidden mt-4 pb-4" id="mobile-menu">
+                <a href="index.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Accueil</a>
+                <a href="services.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Services</a>
+                <a href="about.html" class="block py-2 text-violet-600 dark:text-violet-400 font-medium">À propos</a>
+                <a href="devis.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Devis</a>
+                <a href="faq.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">FAQ</a>
+                <a href="contact.html"
+                    class="block py-2 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400">Contact</a>
+                <div class="mt-4">
+                    <button type="button" id="darkModeToggleMobile"
+                        class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                        aria-label="Basculer mode sombre">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path class="sun" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section
+        class="relative bg-gradient-to-br from-violet-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 py-16 overflow-hidden transition-colors duration-300">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">À Propos de TechFix Solutions</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Votre partenaire informatique de confiance à Ternat
+            </p>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-3xl p-8 md:p-12 mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Qui suis-je?</h2>
+                    <div class="prose prose-lg max-w-none">
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            Je suis Gabriel, passionné d'informatique et actuellement étudiant en <strong
+                                class="text-gray-900 dark:text-white">Graduaat Systeem en Netwerkbeheer</strong>
+                            (Administration Système et Réseau) avec certification CCNA.
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            Basé à <strong class="text-gray-900 dark:text-white">Ternat</strong>, je propose des
+                            services informatiques pour particuliers et petites entreprises de la région. Mon objectif
+                            est simple: résoudre vos problèmes informatiques rapidement et efficacement, avec des prix
+                            honnêtes et transparents.
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Que ce soit pour une réparation urgente, un assemblage PC sur mesure ou un diagnostic
+                            complet, je m'engage à vous fournir un service de qualité avec des explications claires et
+                            des conseils personnalisés.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div
+                        class="bg-gradient-to-br from-violet-50 to-blue-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8">
+                        <div
+                            class="w-16 h-16 bg-violet-600 dark:bg-violet-500 rounded-2xl flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Formation</h3>
+                        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                            <li class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-violet-600 flex-shrink-0 mt-1" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Graduaat Systeem en Netwerkbeheer (en cours)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-violet-600 flex-shrink-0 mt-1" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Certification CCNA</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-violet-600 flex-shrink-0 mt-1" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Formation continue en technologies IT</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="bg-gradient-to-br from-blue-50 to-violet-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8">
+                        <div
+                            class="w-16 h-16 bg-blue-600 dark:bg-blue-500 rounded-2xl flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Expérience</h3>
+                        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                            <li class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Support IT chez Trinergy &amp; Bananask.com</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Gestion d'infrastructure Docker</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Configuration serveurs et réseaux</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-3xl p-8 md:p-12 mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Mes Compétences</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-violet-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                    <path fill-rule="evenodd"
+                                        d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Hardware
+                            </h4>
+                            <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                                <li>• Assemblage PC</li>
+                                <li>• Diagnostic pannes</li>
+                                <li>• Remplacement composants</li>
+                                <li>• Optimisation refroidissement</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Software
+                            </h4>
+                            <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                                <li>• Windows 10/11</li>
+                                <li>• Installation logiciels</li>
+                                <li>• Suppression virus</li>
+                                <li>• Optimisation système</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-violet-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Réseau
+                            </h4>
+                            <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                                <li>• Configuration réseau</li>
+                                <li>• Dépannage connexion</li>
+                                <li>• Sécurité réseau</li>
+                                <li>• Docker &amp; serveurs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gradient-to-br from-violet-600 to-blue-500 rounded-3xl p-8 md:p-12 text-white text-center">
+                    <h2 class="text-3xl font-bold mb-4">Mes Valeurs</h2>
+                    <div class="grid md:grid-cols-3 gap-8 mt-8">
+                        <div>
+                            <div
+                                class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Honnêteté</h3>
+                            <p class="text-violet-100">Prix transparents, diagnostic gratuit, aucun frais caché</p>
+                        </div>
+                        <div>
+                            <div
+                                class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Rapidité</h3>
+                            <p class="text-violet-100">Intervention rapide, la plupart des réparations en 24-48h</p>
+                        </div>
+                        <div>
+                            <div
+                                class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Service</h3>
+                            <p class="text-violet-100">Conseils personnalisés, explications claires, suivi après
+                                intervention</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">Prêt à Travailler Ensemble?</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+                Contactez-moi pour discuter de votre projet ou problème informatique
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="tel:0470682927"
+                    class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition">
+                    Appelez:&nbsp;0470&nbsp;68&nbsp;29&nbsp;27
+                </a>
+                <a href="contact.html"
+                    class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition">
+                    Formulaire de Contact
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 dark:bg-black text-gray-300 py-12 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <div
+                        class="text-3xl font-bold bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent mb-4">
+                        TechFix
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Services informatiques professionnels à Ternat. Réparation, assemblage, maintenance et support
+                        pour tous vos problèmes informatiques.
+                    </p>
+                    <div class="space-y-2">
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Ternat, Belgique
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            gabi.alazaroae@gmail.com
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                </path>
+                            </svg>
+                            0470 68 29 27
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Liens Rapides</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-violet-400 transition">Accueil</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Services</a></li>
+                        <li><a href="about.html" class="hover:text-violet-400 transition">À propos</a></li>
+                        <li><a href="devis.html" class="hover:text-violet-400 transition">Devis</a></li>
+                        <li><a href="faq.html" class="hover:text-violet-400 transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-violet-400 transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="services.html#reparation" class="hover:text-violet-400 transition">Réparation
+                                PC</a></li>
+                        <li><a href="services.html#assemblage" class="hover:text-violet-400 transition">Assemblage
+                                PC</a></li>
+                        <li><a href="services.html#composants" class="hover:text-violet-400 transition">Composants</a>
+                        </li>
+                        <li><a href="services.html#windows" class="hover:text-violet-400 transition">Installation
+                                Windows</a></li>
+                        <li><a href="services.html#diagnose" class="hover:text-violet-400 transition">Diagnostic</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 TechFix Solutions - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+        const html = document.documentElement;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.classList.add('dark');
+        }
+
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        }
+
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+
+</html>
