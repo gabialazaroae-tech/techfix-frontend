@@ -132,7 +132,9 @@
         <div class="container mx-auto px-4">
             <div class="max-w-3xl mx-auto">
                 <div class="bg-gray-50 dark:bg-gray-800 rounded-3xl p-8 md:p-12">
-                    <form id="devisForm" class="space-y-6">
+                    <form action="https://formspree.io/f/mgokznqp" method="POST" class="space-y-6">
+                        <input type="hidden" name="_subject" value="Nouvelle demande de devis - TechFix Solutions">
+
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label for="nom"
@@ -177,13 +179,14 @@
                             <select id="service" name="service" required
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                                 <option value="">Sélectionnez un service</option>
-                                <option value="reparation">Réparation PC Desktop</option>
-                                <option value="assemblage">Assemblage PC Sur Mesure</option>
-                                <option value="composants">Remplacement de Composants</option>
-                                <option value="windows">Installation Windows</option>
-                                <option value="bluescreen">Écran Bleu/Noir - Fix</option>
-                                <option value="diagnostic">Diagnostic &amp; Résolution de Bugs</option>
-                                <option value="autre">Autre</option>
+                                <option value="Réparation PC Desktop">Réparation PC Desktop</option>
+                                <option value="Assemblage PC Sur Mesure">Assemblage PC Sur Mesure</option>
+                                <option value="Remplacement de Composants">Remplacement de Composants</option>
+                                <option value="Installation Windows">Installation Windows</option>
+                                <option value="Écran Bleu/Noir - Fix">Écran Bleu/Noir - Fix</option>
+                                <option value="Diagnostic & Résolution de Bugs">Diagnostic &amp; Résolution de Bugs
+                                </option>
+                                <option value="Autre">Autre</option>
                             </select>
                         </div>
 
@@ -192,24 +195,25 @@
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Urgence</label>
                             <select id="urgence" name="urgence"
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
-                                <option value="normal">Normal (sous 48h)</option>
-                                <option value="urgent">Urgent (sous 24h)</option>
-                                <option value="tres-urgent">Très urgent (même jour si possible)</option>
+                                <option value="Normal (sous 48h)">Normal (sous 48h)</option>
+                                <option value="Urgent (sous 24h)">Urgent (sous 24h)</option>
+                                <option value="Très urgent (même jour si possible)">Très urgent (même jour si possible)
+                                </option>
                             </select>
                         </div>
 
                         <div id="deplacementField" class="hidden">
-                            <label for="deplacement"
-                                class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Déplacement
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Déplacement
                                 nécessaire?</label>
                             <div class="space-y-2">
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="deplacement" value="non" checked
+                                    <input type="radio" name="deplacement" value="Non, je peux apporter le PC" checked
                                         class="text-violet-600 focus:ring-violet-600">
                                     <span class="text-gray-700 dark:text-gray-300">Non, je peux apporter le PC</span>
                                 </label>
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="deplacement" value="oui"
+                                    <input type="radio" name="deplacement"
+                                        value="Oui, intervention à domicile/entreprise (0,50€/km)"
                                         class="text-violet-600 focus:ring-violet-600">
                                     <span class="text-gray-700 dark:text-gray-300">Oui, intervention à
                                         domicile/entreprise (0,50€/km)</span>
@@ -256,22 +260,6 @@
                             Envoyer la Demande de Devis
                         </button>
                     </form>
-
-                    <div id="successMessage"
-                        class="hidden mt-8 p-6 bg-green-50 dark:bg-green-900/20 border-2 border-green-500 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <div>
-                                <h3 class="font-bold text-green-900 dark:text-green-100 text-lg">Demande envoyée avec
-                                    succès!</h3>
-                                <p class="text-green-700 dark:text-green-200">Je vous répondrai dans les 24h. Merci pour
-                                    votre confiance!</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="mt-12 grid md:grid-cols-3 gap-6">
@@ -431,128 +419,84 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        const devisForm = document.getElementById('devisForm');
-        const successMessage = document.getElementById('successMessage');
-
-        devisForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            devisForm.classList.add('hidden');
-            successMessage.classList.remove('hidden');
-
-            window.scrollTo({ top: successMessage.offsetTop - 100, behavior: 'smooth' });
-        });
-
-        // Pré-remplissage automatique selon le service sélectionné
-        const urlParams = new URLSearchParams(window.location.search);
-        const serviceParam = urlParams.get('service');
-
+        // Gestion des champs conditionnels
         const serviceSelect = document.getElementById('service');
-        const descriptionTextarea = document.getElementById('description');
         const urgenceField = document.getElementById('urgenceField');
         const deplacementField = document.getElementById('deplacementField');
         const budgetField = document.getElementById('budgetField');
+        const descriptionTextarea = document.getElementById('description');
 
-        const serviceData = {
-            'reparation': {
-                value: 'reparation',
-                description: 'Bonjour,\n\nMon PC ne fonctionne pas correctement. Je souhaiterais un diagnostic et une réparation.\n\nProblème constaté: [Décrivez votre problème ici - ex: PC lent, ne démarre plus, bruits suspects, etc.]\n\nMerci de me recontacter.'
-            },
-            'assemblage': {
-                value: 'assemblage',
-                description: 'Bonjour,\n\nJe souhaite faire assembler un PC sur mesure.\n\nUtilisation prévue: [Gaming / Bureautique / Travail professionnel / Montage vidéo / etc.]\nBudget approximatif: [Indiquez votre budget]\n\nMerci de me proposer une configuration adaptée.'
-            },
-            'composants': {
-                value: 'composants',
-                description: 'Bonjour,\n\nJe souhaite remplacer ou upgrader des composants de mon PC.\n\nComposant(s) concerné(s): [RAM / SSD / Carte graphique / Alimentation / etc.]\nRaison: [Upgrade de performance / Panne / etc.]\n\nMerci pour votre devis.'
-            },
-            'windows': {
-                value: 'windows',
-                description: 'Bonjour,\n\nJe souhaite une installation Windows propre sur mon PC.\n\nVersion souhaitée: [Windows 10 / Windows 11]\nInclure: Installation complète, pilotes, mises à jour et logiciels de base\n\nMerci de me recontacter.'
-            },
-            'bluescreen': {
-                value: 'bluescreen',
-                description: 'Bonjour,\n\nMon PC affiche un écran bleu (BSOD) ou écran noir.\n\nFréquence du problème: [Toujours / Parfois / Au démarrage / etc.]\nMessage d\'erreur affiché: [Si vous vous en souvenez]\n\nMerci de m\'aider à résoudre ce problème.'
-            },
-            'diagnose': {
-                value: 'diagnostic',
-                description: 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / Virus suspectés / Comportement anormal / etc.]\n\nMerci de procéder à une analyse complète et de me proposer les solutions adaptées.'
-            },
-            'diagnostic': {
-                value: 'diagnostic',
-                description: 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / Virus suspectés / Comportement anormal / etc.]\n\nMerci de procéder à une analyse complète et de me proposer les solutions adaptées.'
-            }
+        const serviceDescriptions = {
+            'Réparation PC Desktop': 'Bonjour,\n\nMon PC ne fonctionne pas correctement. Je souhaiterais un diagnostic et une réparation.\n\nProblème constaté: [Décrivez votre problème ici]\n\nMerci de me recontacter.',
+            'Assemblage PC Sur Mesure': 'Bonjour,\n\nJe souhaite faire assembler un PC sur mesure.\n\nUtilisation prévue: [Gaming / Bureautique / etc.]\nBudget approximatif: [Indiquez votre budget]\n\nMerci de me proposer une configuration adaptée.',
+            'Remplacement de Composants': 'Bonjour,\n\nJe souhaite remplacer ou upgrader des composants de mon PC.\n\nComposant(s) concerné(s): [RAM / SSD / etc.]\n\nMerci pour votre devis.',
+            'Installation Windows': 'Bonjour,\n\nJe souhaite une installation Windows propre sur mon PC.\n\nVersion souhaitée: [Windows 10 / Windows 11]\n\nMerci de me recontacter.',
+            'Écran Bleu/Noir - Fix': 'Bonjour,\n\nMon PC affiche un écran bleu (BSOD) ou écran noir.\n\nFréquence du problème: [Toujours / Parfois / etc.]\n\nMerci de m\'aider à résoudre ce problème.',
+            'Diagnostic & Résolution de Bugs': 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / etc.]\n\nMerci de procéder à une analyse complète.'
         };
 
-        // Fonction pour afficher/masquer les champs selon le service
         function updateFormFields(serviceValue) {
-            // Masquer tous les champs d'abord
             urgenceField.classList.add('hidden');
             deplacementField.classList.add('hidden');
             budgetField.classList.add('hidden');
 
-            // Logique conditionnelle selon le service
+            if (serviceDescriptions[serviceValue]) {
+                descriptionTextarea.value = serviceDescriptions[serviceValue];
+            }
+
             switch (serviceValue) {
-                case 'reparation':
-                    // Réparation: urgence, déplacement, description
+                case 'Réparation PC Desktop':
                     urgenceField.classList.remove('hidden');
                     deplacementField.classList.remove('hidden');
                     break;
-
-                case 'assemblage':
-                    // Assemblage: déplacement, description, budget
+                case 'Assemblage PC Sur Mesure':
                     deplacementField.classList.remove('hidden');
                     budgetField.classList.remove('hidden');
                     break;
-
-                case 'composants':
-                    // Composants: urgence, déplacement, description
+                case 'Remplacement de Composants':
                     urgenceField.classList.remove('hidden');
                     deplacementField.classList.remove('hidden');
                     break;
-
-                case 'windows':
-                    // Windows: déplacement, description
+                case 'Installation Windows':
                     deplacementField.classList.remove('hidden');
                     break;
-
-                case 'bluescreen':
-                    // Écran bleu/noir: urgence, déplacement, description
+                case 'Écran Bleu/Noir - Fix':
                     urgenceField.classList.remove('hidden');
                     deplacementField.classList.remove('hidden');
                     break;
-
-                case 'diagnostic':
-                    // Diagnostic: urgence, déplacement, description
+                case 'Diagnostic & Résolution de Bugs':
                     urgenceField.classList.remove('hidden');
                     deplacementField.classList.remove('hidden');
                     break;
-
-                case 'autre':
-                    // Autre: tout afficher
+                case 'Autre':
                     urgenceField.classList.remove('hidden');
                     deplacementField.classList.remove('hidden');
                     budgetField.classList.remove('hidden');
-                    break;
-
-                default:
-                    // Par défaut, tout masquer
                     break;
             }
         }
 
-        // Écouter les changements de service
         serviceSelect.addEventListener('change', function () {
             updateFormFields(this.value);
         });
 
-        // Pré-remplir si paramètre URL présent
-        if (serviceParam && serviceData[serviceParam]) {
-            serviceSelect.value = serviceData[serviceParam].value;
-            descriptionTextarea.value = serviceData[serviceParam].description;
-            updateFormFields(serviceData[serviceParam].value);
+        // Pré-remplir depuis URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceParam = urlParams.get('service');
 
-            // Scroll vers le formulaire
+        const serviceMapping = {
+            'reparation': 'Réparation PC Desktop',
+            'assemblage': 'Assemblage PC Sur Mesure',
+            'composants': 'Remplacement de Composants',
+            'windows': 'Installation Windows',
+            'bluescreen': 'Écran Bleu/Noir - Fix',
+            'diagnose': 'Diagnostic & Résolution de Bugs',
+            'diagnostic': 'Diagnostic & Résolution de Bugs'
+        };
+
+        if (serviceParam && serviceMapping[serviceParam]) {
+            serviceSelect.value = serviceMapping[serviceParam];
+            updateFormFields(serviceMapping[serviceParam]);
             setTimeout(() => {
                 serviceSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 100);

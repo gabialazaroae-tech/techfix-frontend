@@ -70,7 +70,7 @@
                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
                             </path>
                             <path class="moon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                d="M20.354 15.354A9 9  0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
                             </path>
                         </svg>
                     </button>
@@ -220,7 +220,9 @@
                 <div>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Envoyez-moi un Message</h2>
 
-                    <form id="contactForm" class="space-y-6">
+                    <form action="https://formspree.io/f/mnjdzopr" method="POST" class="space-y-6">
+                        <input type="hidden" name="_subject" value="Nouveau message de contact - TechFix Solutions">
+
                         <div>
                             <label for="nom"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nom complet
@@ -271,21 +273,6 @@
                             Envoyer le Message
                         </button>
                     </form>
-
-                    <div id="successMessage"
-                        class="hidden mt-6 p-6 bg-green-50 dark:bg-green-900/20 border-2 border-green-500 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <div>
-                                <h3 class="font-bold text-green-900 dark:text-green-100 text-lg">Message envoyé!</h3>
-                                <p class="text-green-700 dark:text-green-200">Je vous répondrai dans les plus brefs
-                                    délais.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -422,18 +409,6 @@
 
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-        });
-
-        const contactForm = document.getElementById('contactForm');
-        const successMessage = document.getElementById('successMessage');
-
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            contactForm.classList.add('hidden');
-            successMessage.classList.remove('hidden');
-
-            window.scrollTo({ top: successMessage.offsetTop - 100, behavior: 'smooth' });
         });
     </script>
 
