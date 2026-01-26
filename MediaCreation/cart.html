@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winkelwagen - MediaPulse Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7C3AED',
+                        secondary: '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+
+    <!-- Top Bar -->
+    <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="flex gap-6">
+                <a href="mailto:info@mediapulse.be" class="hover:underline">info@mediapulse.be</a>
+                <span>Ma - Vr: 9u00 - 18u00</span>
+            </div>
+            <div class="mt-2 md:mt-0">
+                <p class="italic">Creatief, ambitieus en klaar voor uitdagingen!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center">
+                    <div
+                        class="text-3xl font-bold bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent">
+                        MediaPulse
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-violet-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-700 hover:text-violet-600 font-medium transition">Over ons</a>
+                    <a href="services.html"
+                        class="text-gray-700 hover:text-violet-600 font-medium transition">Diensten</a>
+                    <a href="cart.html" class="text-violet-600 font-medium">Winkelwagen</a>
+                    <a href="contact.html"
+                        class="text-gray-700 hover:text-violet-600 font-medium transition">Contact</a>
+                    <a href="careers.html"
+                        class="text-gray-700 hover:text-violet-600 font-medium transition">Vacatures</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="contact.html"
+                        class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition">
+                        Gratis offerte
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button type="button" class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Navigatiemenu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobile-menu">
+                <a href="index.html" class="block py-2 text-gray-700 hover:text-violet-600">Home</a>
+                <a href="about.html" class="block py-2 text-gray-700 hover:text-violet-600">Over ons</a>
+                <a href="services.html" class="block py-2 text-gray-700 hover:text-violet-600">Diensten</a>
+                <a href="cart.html" class="block py-2 text-violet-600 font-medium">Winkelwagen</a>
+                <a href="contact.html" class="block py-2 text-gray-700 hover:text-violet-600">Contact</a>
+                <a href="careers.html" class="block py-2 text-gray-700 hover:text-violet-600">Vacatures</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-violet-50 to-blue-50 py-12">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Uw Winkelwagen</h1>
+            <p class="text-lg text-gray-600">
+                Controleer uw geselecteerde diensten en ga verder naar bestelling.
+            </p>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Cart Items -->
+                <div class="lg:col-span-2" id="cart-items-container">
+                    <!-- Items will be loaded dynamically by JavaScript -->
+                </div>
+
+                <!-- Order Summary -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gray-50 rounded-2xl p-6 sticky top-24">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Overzicht Bestelling</h2>
+
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between text-gray-700">
+                                <span>Subtotaal</span>
+                                <span class="font-semibold" id="subtotal">€3.200</span>
+                            </div>
+                            <div class="flex justify-between text-gray-700">
+                                <span>BTW (21%)</span>
+                                <span class="font-semibold" id="btw">€672</span>
+                            </div>
+                            <div class="border-t border-gray-300 pt-4">
+                                <div class="flex justify-between text-xl font-bold text-gray-900">
+                                    <span>Totaal</span>
+                                    <span class="text-violet-600" id="total">€3.872</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promo Code -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kortingscode</label>
+                            <div class="flex gap-2">
+                                <input type="text" placeholder="Code invoeren"
+                                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600">
+                                <button type="button"
+                                    class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-semibold">
+                                    Toepassen
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <button type="button"
+                            class="w-full bg-gradient-to-r from-violet-600 to-blue-500 text-white py-4 rounded-full font-bold text-lg hover:shadow-xl transition mb-4">
+                            Bestelling Plaatsen
+                        </button>
+
+                        <p class="text-xs text-gray-500 text-center">
+                            Door te bestellen gaat u akkoord met onze algemene voorwaarden
+                        </p>
+
+                        <!-- Trust Badges -->
+                        <div class="mt-6 pt-6 border-t border-gray-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                    </path>
+                                </svg>
+                                <span class="text-sm text-gray-700">Veilige betaling gegarandeerd</span>
+                            </div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-gray-700">Gratis herzieningen inbegrepen</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-sm text-gray-700">Levering binnen afgesproken termijn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Dit zou u ook kunnen interesseren</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Upsell 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-violet-100 to-blue-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">2D Animatie - Explainer Video</h3>
+                    <p class="text-gray-600 mb-4">Leg uw diensten uit met een boeiende explainer video</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-violet-600">€1.500</span>
+                        <button type="button" onclick="addToCartFromPage('2D Animatie - Explainer Video', 1500)"
+                            class="text-violet-600 font-semibold hover:underline">Toevoegen →</button>
+                    </div>
+                </div>
+
+                <!-- Upsell 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-violet-100 to-blue-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Voice-Over Professioneel</h3>
+                    <p class="text-gray-600 mb-4">Professionele voice-over in Nederlands of Engels</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-violet-600">€400</span>
+                        <button type="button" onclick="addToCartFromPage('Voice-Over Professioneel', 400)"
+                            class="text-violet-600 font-semibold hover:underline">Toevoegen →</button>
+                    </div>
+                </div>
+
+                <!-- Upsell 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-violet-100 to-blue-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Branding Pakket - Starter</h3>
+                    <p class="text-gray-600 mb-4">Logo, visitekaartjes en basishuisstijl</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-violet-600">€2.000</span>
+                        <button type="button" onclick="addToCartFromPage('Branding Pakket - Starter', 2000)"
+                            class="text-violet-600 font-semibold hover:underline">Toevoegen →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Logo & Description -->
+                <div class="md:col-span-2">
+                    <div
+                        class="text-3xl font-bold bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent mb-4">
+                        MediaPulse
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Multimedia creatiestudio gevestigd in Brussel, gespecialiseerd in de productie van visuele en
+                        audio-inhoud voor lokale bedrijven.
+                    </p>
+                    <div class="space-y-2">
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Louizalaan, 250<br>
+                            <span class="ml-7">1050 Brussel, België</span>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            info@mediapulse.be
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                </path>
+                            </svg>
+                            +32 2 123 45 67
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Snelle Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-violet-400 transition">Home</a></li>
+                        <li><a href="about.html" class="hover:text-violet-400 transition">Over ons</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Diensten</a></li>
+                        <li><a href="contact.html" class="hover:text-violet-400 transition">Contact</a></li>
+                        <li><a href="careers.html" class="hover:text-violet-400 transition">Vacatures</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Onze Diensten</h3>
+                    <ul class="space-y-2">
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Videoproductie</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Grafisch Ontwerp</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">2D/3D Animatie</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Audioproductie</a></li>
+                        <li><a href="services.html" class="hover:text-violet-400 transition">Branding</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 MediaPulse Studio - Alle rechten voorbehouden</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cart functionality
+        const defaultCartItems = [
+            { id: 1, name: 'Videoproductie - Corporate Video', price: 1200, quantity: 1 },
+            { id: 2, name: 'Grafisch Ontwerp - Social Media Pakket', price: 600, quantity: 2 },
+            { id: 3, name: 'Motion Design - Logo Animatie', price: 800, quantity: 1 }
+        ];
+
+        // Load cart from localStorage or use default items
+        let cartItems = [];
+        const savedCart = localStorage.getItem('mediapulse_cart');
+
+        if (savedCart) {
+            try {
+                cartItems = JSON.parse(savedCart);
+                // If parsed cart is empty or invalid, use default items
+                if (!Array.isArray(cartItems) || cartItems.length === 0) {
+                    cartItems = [...defaultCartItems];
+                    localStorage.setItem('mediapulse_cart', JSON.stringify(cartItems));
+                }
+            } catch (e) {
+                // If JSON parsing fails, use default items
+                cartItems = [...defaultCartItems];
+                localStorage.setItem('mediapulse_cart', JSON.stringify(cartItems));
+            }
+        } else {
+            // No saved cart, use default items
+            cartItems = [...defaultCartItems];
+            localStorage.setItem('mediapulse_cart', JSON.stringify(cartItems));
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('mediapulse_cart', JSON.stringify(cartItems));
+        }
+
+        function updateCart() {
+            let subtotal = 0;
+            cartItems.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+
+            const btw = subtotal * 0.21;
+            const total = subtotal + btw;
+
+            // Update summary
+            document.getElementById('subtotal').textContent = '€' + subtotal.toLocaleString('nl-NL');
+            document.getElementById('btw').textContent = '€' + btw.toLocaleString('nl-NL');
+            document.getElementById('total').textContent = '€' + total.toLocaleString('nl-NL');
+
+            // Update individual item totals
+            cartItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                const itemElement = document.getElementById('item-total-' + item.id);
+                const itemQuantity = document.getElementById('item-quantity-' + item.id);
+                if (itemElement) {
+                    itemElement.textContent = '€' + itemTotal.toLocaleString('nl-NL');
+                }
+                if (itemQuantity) {
+                    itemQuantity.value = item.quantity;
+                }
+            });
+        }
+
+        function increaseQuantity(itemId) {
+            const item = cartItems.find(i => i.id === itemId);
+            if (item) {
+                item.quantity++;
+                saveCart();
+                updateCart();
+            }
+        }
+
+        function decreaseQuantity(itemId) {
+            const item = cartItems.find(i => i.id === itemId);
+            if (item && item.quantity > 1) {
+                item.quantity--;
+                saveCart();
+                updateCart();
+            }
+        }
+
+        function removeItem(itemId) {
+            const itemIndex = cartItems.findIndex(i => i.id === itemId);
+            if (itemIndex > -1) {
+                // Add fade out animation
+                const itemElement = document.getElementById('cart-item-' + itemId);
+                itemElement.style.opacity = '0';
+                itemElement.style.transition = 'opacity 0.3s';
+
+                setTimeout(() => {
+                    cartItems.splice(itemIndex, 1);
+                    saveCart();
+                    itemElement.remove();
+                    updateCart();
+
+                    // Check if cart is empty
+                    if (cartItems.length === 0) {
+                        showEmptyCart();
+                    }
+                }, 300);
+            }
+        }
+
+        function showEmptyCart() {
+            const cartContainer = document.getElementById('cart-items-container');
+            cartContainer.innerHTML = `
+                <div class="text-center py-16">
+                    <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Uw winkelwagen is leeg</h3>
+                    <p class="text-gray-600 mb-6">Voeg enkele diensten toe om te beginnen!</p>
+                    <a href="services.html" class="inline-block bg-gradient-to-r from-violet-600 to-blue-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition">
+                        Bekijk Onze Diensten
+                    </a>
+                </div>
+            `;
+        }
+
+        // Add to cart from suggestions on cart page
+        function addToCartFromPage(serviceName, price) {
+            // Check if item already exists
+            const existingItem = cartItems.find(item => item.name === serviceName);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                // Add new item with unique ID
+                const newId = Math.max(...cartItems.map(item => item.id), 0) + 1;
+                cartItems.push({
+                    id: newId,
+                    name: serviceName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+
+            // Save and refresh cart
+            saveCart();
+            renderCartItems();
+            updateCart();
+
+            // Show notification
+            showAddToCartNotification(serviceName);
+
+            // Scroll to top of cart to see the new item
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showAddToCartNotification(serviceName) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl z-50 animate-fade-in';
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <div>
+                        <p class="font-semibold">Toegevoegd aan winkelwagen!</p>
+                        <p class="text-sm">${serviceName}</p>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Fade in animation
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 10);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        function renderCartItems() {
+            const cartContainer = document.getElementById('cart-items-container');
+
+            if (cartItems.length === 0) {
+                showEmptyCart();
+                return;
+            }
+
+            // Function to get icon based on service name
+            function getServiceIcon(serviceName) {
+                const name = serviceName.toLowerCase();
+
+                // Video services
+                if (name.includes('video') || name.includes('corporate')) {
+                    return `<svg class="w-16 h-16 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>`;
+                }
+                // Graphic Design services
+                else if (name.includes('grafisch') || name.includes('design') || name.includes('social media') || name.includes('ontwerp')) {
+                    return `<svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>`;
+                }
+                // Motion Design & Animation services
+                else if (name.includes('motion') || name.includes('animatie') || name.includes('explainer') || name.includes('2d') || name.includes('3d')) {
+                    return `<svg class="w-16 h-16 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>`;
+                }
+                // Audio services
+                else if (name.includes('audio') || name.includes('voice') || name.includes('podcast') || name.includes('over')) {
+                    return `<svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                    </svg>`;
+                }
+                // Branding services
+                else if (name.includes('branding') || name.includes('identiteit') || name.includes('pakket') || name.includes('starter')) {
+                    return `<svg class="w-16 h-16 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>`;
+                }
+                // Default icon (motion/lightning)
+                else {
+                    return `<svg class="w-16 h-16 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>`;
+                }
+            }
+
+            let html = '<div class="bg-white rounded-2xl border-2 border-gray-200 overflow-hidden">';
+
+            cartItems.forEach((item, index) => {
+                const isLast = index === cartItems.length - 1;
+                const borderClass = isLast ? '' : 'border-b border-gray-200';
+
+                html += `
+                    <div class="p-6 ${borderClass}" id="cart-item-${item.id}">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="w-full md:w-32 h-32 bg-gradient-to-br from-violet-100 to-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                ${getServiceIcon(item.name)}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900">${item.name}</h3>
+                                        <p class="text-gray-600 mt-1">Professionele dienst volgens uw wensen</p>
+                                    </div>
+                                    <button type="button" class="text-gray-400 hover:text-red-600 transition ml-4" aria-label="Verwijder item" onclick="removeItem(${item.id})">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-4">
+                                    <div class="flex items-center gap-4">
+                                        <label class="text-sm text-gray-600">Aantal:</label>
+                                        <div class="flex items-center border border-gray-300 rounded-lg">
+                                            <button type="button" class="px-3 py-1 hover:bg-gray-100 transition" aria-label="Verlaag aantal" onclick="decreaseQuantity(${item.id})">-</button>
+                                            <input type="number" id="item-quantity-${item.id}" value="${item.quantity}" min="1" class="w-16 text-center border-x border-gray-300 py-1" readonly>
+                                            <button type="button" class="px-3 py-1 hover:bg-gray-100 transition" aria-label="Verhoog aantal" onclick="increaseQuantity(${item.id})">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="text-2xl font-bold text-violet-600" id="item-total-${item.id}">€${(item.price * item.quantity).toLocaleString('nl-NL')}</div>
+                                </div>
+                                ${item.quantity > 1 ? `<p class="text-sm text-gray-500 mt-2">€${item.price.toLocaleString('nl-NL')} per stuk</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            // Add "Continue Shopping" button
+            html += `
+                <div class="mt-6">
+                    <a href="services.html" class="inline-flex items-center gap-2 text-violet-600 font-semibold hover:underline">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Verder winkelen
+                    </a>
+                </div>
+            `;
+
+            cartContainer.innerHTML = html;
+        }
+
+        // Initialize cart on page load
+        renderCartItems();
+        updateCart();
+    </script>
+
+</body>
+
+</html>
