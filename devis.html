@@ -184,7 +184,8 @@
                                 <option value="Remplacement de Composants">Remplacement de Composants</option>
                                 <option value="Installation Windows">Installation Windows</option>
                                 <option value="Écran Bleu/Noir - Fix">Écran Bleu/Noir - Fix</option>
-                                <option value="Diagnostic & Résolution de Bugs">Diagnostic &amp; Résolution de Bugs</option>
+                                <option value="Diagnostic & Résolution de Bugs">Diagnostic &amp; Résolution de Bugs
+                                </option>
                                 <option value="Autre">Autre</option>
                             </select>
                         </div>
@@ -501,18 +502,15 @@
             }, 100);
         }
 
-        // Soumission du formulaire avec Nodemailer
         const devisForm = document.querySelector('form');
         const submitButton = devisForm.querySelector('button[type="submit"]');
 
         devisForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Désactiver le bouton pendant l'envoi
             submitButton.disabled = true;
             submitButton.textContent = 'Envoi en cours...';
 
-            // Récupérer les données du formulaire
             const deplacementRadio = document.querySelector('input[name="deplacement"]:checked');
             const formData = {
                 nom: document.getElementById('nom').value,
@@ -527,8 +525,7 @@
             };
 
             try {
-                // IMPORTANT: Remplace cette URL par ton URL backend Vercel
-                const response = await fetch('https://VOTRE-BACKEND.vercel.app/api/devis', {
+                const response = await fetch('https://techfix-backend.vercel.app/api/devis', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -539,12 +536,10 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    // Succès - afficher message et réinitialiser
                     alert('✅ ' + result.message);
                     devisForm.reset();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    // Erreur
                     alert('❌ ' + result.message);
                 }
 
@@ -552,7 +547,6 @@
                 console.error('Erreur:', error);
                 alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
             } finally {
-                // Réactiver le bouton
                 submitButton.disabled = false;
                 submitButton.textContent = 'Envoyer la Demande de Devis';
             }
