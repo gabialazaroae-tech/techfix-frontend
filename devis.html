@@ -442,6 +442,50 @@
 
             window.scrollTo({ top: successMessage.offsetTop - 100, behavior: 'smooth' });
         });
+
+        // Pré-remplissage automatique selon le service sélectionné
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceParam = urlParams.get('service');
+
+        const serviceSelect = document.getElementById('service');
+        const descriptionTextarea = document.getElementById('description');
+
+        const serviceData = {
+            'reparation': {
+                value: 'reparation',
+                description: 'Bonjour,\n\nMon PC ne fonctionne pas correctement. Je souhaiterais un diagnostic et une réparation.\n\nProblème constaté: [Décrivez votre problème ici - ex: PC lent, ne démarre plus, bruits suspects, etc.]\n\nMerci de me recontacter.'
+            },
+            'assemblage': {
+                value: 'assemblage',
+                description: 'Bonjour,\n\nJe souhaite faire assembler un PC sur mesure.\n\nUtilisation prévue: [Gaming / Bureautique / Travail professionnel / Montage vidéo / etc.]\nBudget approximatif: [Indiquez votre budget]\n\nMerci de me proposer une configuration adaptée.'
+            },
+            'composants': {
+                value: 'composants',
+                description: 'Bonjour,\n\nJe souhaite remplacer ou upgrader des composants de mon PC.\n\nComposant(s) concerné(s): [RAM / SSD / Carte graphique / Alimentation / etc.]\nRaison: [Upgrade de performance / Panne / etc.]\n\nMerci pour votre devis.'
+            },
+            'windows': {
+                value: 'windows',
+                description: 'Bonjour,\n\nJe souhaite une installation Windows propre sur mon PC.\n\nVersion souhaitée: [Windows 10 / Windows 11]\nInclure: Installation complète, pilotes, mises à jour et logiciels de base\n\nMerci de me recontacter.'
+            },
+            'bluescreen': {
+                value: 'bluescreen',
+                description: 'Bonjour,\n\nMon PC affiche un écran bleu (BSOD) ou écran noir.\n\nFréquence du problème: [Toujours / Parfois / Au démarrage / etc.]\nMessage d\'erreur affiché: [Si vous vous en souvenez]\n\nMerci de m\'aider à résoudre ce problème.'
+            },
+            'diagnose': {
+                value: 'diagnose',
+                description: 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / Virus suspectés / Comportement anormal / etc.]\n\nMerci de procéder à une analyse complète et de me proposer les solutions adaptées.'
+            }
+        };
+
+        if (serviceParam && serviceData[serviceParam]) {
+            serviceSelect.value = serviceData[serviceParam].value;
+            descriptionTextarea.value = serviceData[serviceParam].description;
+
+            // Scroll vers le formulaire
+            setTimeout(() => {
+                serviceSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
     </script>
 
 </body>
