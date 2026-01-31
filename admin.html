@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; connect-src 'self' https://*.firebaseio.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com; font-src 'self' https://fonts.googleapis.com; img-src 'self' data:;">
+    <title>Admin Panel - TechFix Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7C3AED',
+                        secondary: '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-md w-full">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8">
+                <div class="text-center mb-8">
+                    <div class="text-4xl font-bold bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent mb-2">
+                        TechFix Admin
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400">Panneau d'administration</p>
+                </div>
+
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                        <input type="email" id="loginEmail" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="admin@techfix.com">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Mot de passe</label>
+                        <input type="password" id="loginPassword" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="••••••••">
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
+                        Se connecter
+                    </button>
+
+                    <div id="loginError" class="hidden p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                        <p class="text-red-800 dark:text-red-200 text-sm"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="hidden min-h-screen">
+        <!-- Header -->
+        <nav class="bg-white dark:bg-gray-800 shadow-md">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-8">
+                        <div class="text-2xl font-bold bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent">
+                            TechFix Admin
+                        </div>
+                        <div class="hidden md:flex items-center gap-6">
+                            <button class="nav-btn" data-section="dashboard">📊 Dashboard</button>
+                            <button class="nav-btn" data-section="devis">📧 Devis</button>
+                            <button class="nav-btn" data-section="contact">💬 Contact</button>
+                            <button class="nav-btn" data-section="tickets">🎫 Tickets</button>
+                            <button class="nav-btn" data-section="chat">💻 Chat Live</button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <span id="adminName" class="text-gray-700 dark:text-gray-300 font-medium"></span>
+                        <button data-action="logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition">
+                            Déconnexion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">📊 Dashboard</h1>
+            
+            <div class="grid md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">📧</span>
+                        </div>
+                        <span id="statsDevisNouveau" class="text-3xl font-bold text-gray-900 dark:text-white">0</span>
+                    </div>
+                    <h3 class="text-gray-600 dark:text-gray-400 font-semibold">Nouveaux Devis</h3>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-violet-100 dark:bg-violet-900/50 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">💬</span>
+                        </div>
+                        <span id="statsContactNouveau" class="text-3xl font-bold text-gray-900 dark:text-white">0</span>
+                    </div>
+                    <h3 class="text-gray-600 dark:text-gray-400 font-semibold">Nouveaux Messages</h3>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">🎫</span>
+                        </div>
+                        <span id="statsTicketsOuverts" class="text-3xl font-bold text-gray-900 dark:text-white">0</span>
+                    </div>
+                    <h3 class="text-gray-600 dark:text-gray-400 font-semibold">Tickets Ouverts</h3>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">💻</span>
+                        </div>
+                        <span id="statsChatOnline" class="text-3xl font-bold text-gray-900 dark:text-white">0</span>
+                    </div>
+                    <h3 class="text-gray-600 dark:text-gray-400 font-semibold">Utilisateurs En Ligne</h3>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Activité Récente</h2>
+                <div id="activityFeed" class="space-y-4">
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Devis Section -->
+        <section id="devisSection" class="hidden container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">📧 Gestion des Devis</h1>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div id="devisList">
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contactSection" class="hidden container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">💬 Messages de Contact</h1>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div id="contactList">
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tickets Section -->
+        <section id="ticketsSection" class="hidden container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">🎫 Gestion des Tickets</h1>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div id="ticketsList">
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Section -->
+        <section id="chatSection" class="hidden container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">💻 Chat Live</h1>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Sessions Actives</h2>
+                    <div id="chatSessionsList">
+                        <p class="text-gray-500 dark:text-gray-400 text-center py-4">Aucune session</p>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Messages</h2>
+                    <div id="chatMessages" class="h-96 overflow-y-auto mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <p class="text-gray-500 dark:text-gray-400 text-center py-8">Sélectionnez une session</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="chatInput" placeholder="Votre message..." class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" maxlength="2000">
+                        <button data-action="sendChat" class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
+                            Envoyer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="admin-functions.js"></script>
+    <script>
+        // ============================================================
+        // 🔐 Event Delegation — remplace tous les onclick inline
+        // ============================================================
+        document.addEventListener('click', (e) => {
+            // Navigation entre sections
+            const navBtn = e.target.closest('[data-section]');
+            if (navBtn) {
+                showSection(navBtn.dataset.section);
+                return;
+            }
+            // Logout
+            if (e.target.closest('[data-action="logout"]')) {
+                logout();
+                return;
+            }
+            // Chat envoyer
+            if (e.target.closest('[data-action="sendChat"]')) {
+                sendChatMessage();
+                return;
+            }
+        });
+    </script>
+
+</body>
+</html>
