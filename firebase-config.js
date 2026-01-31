@@ -2,12 +2,13 @@
 // Remplace les valeurs par ta vraie configuration Firebase
 
 const firebaseConfig = {
-  apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-  authDomain: "techfix-xxxxx.firebaseapp.com",
-  projectId: "techfix-xxxxx",
-  storageBucket: "techfix-xxxxx.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:xxxxxxxxxxxx"
+  apiKey: "AIzaSyAsPyJ_xq3UscIyq-2hB6TDKGBqMZCoKo4",
+  authDomain: "techfix-solutions-alazaroae.firebaseapp.com",
+  projectId: "techfix-solutions-alazaroae",
+  storageBucket: "techfix-solutions-alazaroae.firebasestorage.app",
+  messagingSenderId: "549071310832",
+  appId: "1:549071310832:web:124491714c096021725735",
+  measurementId: "G-3WVS42MMN7"
 };
 
 firebase.initializeApp(firebaseConfig);
