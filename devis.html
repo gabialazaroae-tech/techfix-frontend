@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demande de Devis - TechFix Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -32,7 +31,7 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="mailto:gabi.alazaroae@gmail.com" class="hover:underline">gabi.alazaroae@gmail.com</a>
+                <a href="/cdn-cgi/l/email-protection#3c5b5d5e55125d505d465d4e535d597c5b515d5550125f5351" class="hover:underline"><span class="__cf_email__" data-cfemail="fb9c9a9992d59a979a819a89949a9ebb9c969a9297d5989496">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -190,8 +189,7 @@
                                 <option value="Remplacement de Composants">Remplacement de Composants</option>
                                 <option value="Installation Windows">Installation Windows</option>
                                 <option value="Écran Bleu/Noir - Fix">Écran Bleu/Noir - Fix</option>
-                                <option value="Diagnostic & Résolution de Bugs">Diagnostic &amp; Résolution de Bugs
-                                </option>
+                                <option value="Diagnostic & Résolution de Bugs">Diagnostic &amp; Résolution de Bugs</option>
                                 <option value="Autre">Autre</option>
                             </select>
                         </div>
@@ -351,7 +349,7 @@
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            gabi.alazaroae@gmail.com
+                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7e191f1c17501f121f041f0c111f1b3e19131f1712501d1113">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -400,7 +398,10 @@
     </footer>
 
     <!-- Firebase Config -->
-    <script src="firebase-config.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="firebase-config.js"></script>
+    
+    <!-- Chat Widget -->
+    <script src="chat-widget.js"></script>
 
     <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -565,16 +566,4 @@
                     alert('❌ ' + result.message);
                 }
 
-            } catch (error) {
-                console.error('Erreur:', error);
-                alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Envoyer la Demande de Devis';
-            }
-        });
-    </script>
-
-</body>
-
-</html>
+ 
