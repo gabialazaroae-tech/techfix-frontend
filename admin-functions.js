@@ -406,8 +406,151 @@ async function updateTicketStatus(id, status) {
     }
 }
 
-function viewTicket(id) {
-    alert('Fonction "Voir ticket" à implémenter - ouvre un modal avec tous les messages du ticket');
+// ============================================================
+// VIEW TICKET MODAL - FONCTION COMPLÈTE
+// ============================================================
+
+async function viewTicket(ticketId) {
+    try {
+        // Charger le ticket
+        const ticketDoc = await db.collection('tickets').doc(ticketId).get();
+        if (!ticketDoc.exists) {
+            alert('Ticket non trouvé');
+            return;
+        }
+        
+        const ticketData = ticketDoc.data();
+        
+        // Créer le modal
+        const modal = document.createElement('div');
+        modal.id = 'ticketModal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full p-8 max-h-screen overflow-y-auto">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">${sanitizeHtml(ticketData.titre)}</h2>
+                        <div class="flex gap-2 mb-2">
+                            ${getStatusBadge(ticketData.status)}
+                            ${getPriorityBadge(ticketData.priority)}
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Par ${sanitizeHtml(ticketData.userName)} • ${formatDate(ticketData.createdAt)}</p>
+                    </div>
+                    <button onclick="closeTicketModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div id="ticketModalMessages" class="space-y-4 mb-6 max-h-96 overflow-y-auto bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <p class="text-center text-gray-500 dark:text-gray-400">Chargement des messages...</p>
+                </div>
+                
+                <form id="ticketReplyForm" class="flex gap-2">
+                    <input type="text" id="ticketReplyInput" placeholder="Votre réponse..." class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" maxlength="2000">
+                    <button type="submit" class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
+                        Envoyer
+                    </button>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Charger les messages
+        loadTicketModalMessages(ticketId);
+        
+        // Gérer le formulaire de réponse
+        document.getElementById('ticketReplyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await sendTicketReply(ticketId);
+        });
+        
+    } catch (error) {
+        console.error('Error opening ticket:', error);
+        alert('Erreur lors de l\'ouverture du ticket');
+    }
+}
+
+function closeTicketModal() {
+    const modal = document.getElementById('ticketModal');
+    if (modal) modal.remove();
+}
+
+async function loadTicketModalMessages(ticketId) {
+    const messagesDiv = document.getElementById('ticketModalMessages');
+    
+    try {
+        // Écouter les messages en temps réel
+        db.collection('tickets').doc(ticketId).collection('messages')
+            .orderBy('createdAt', 'asc')
+            .onSnapshot(snapshot => {
+                if (snapshot.empty) {
+                    messagesDiv.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400">Aucun message</p>';
+                    return;
+                }
+                
+                messagesDiv.innerHTML = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const isAdmin = data.isAdmin;
+                    return `
+                        <div class="flex ${isAdmin ? 'justify-end' : 'justify-start'}">
+                            <div class="max-w-md ${isAdmin ? 'bg-violet-100 dark:bg-violet-900/30' : 'bg-white dark:bg-gray-600'} rounded-lg p-4 shadow">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="font-semibold text-gray-900 dark:text-white">${sanitizeHtml(data.userName)}</span>
+                                    ${isAdmin ? '<span class="text-xs bg-violet-500 text-white px-2 py-1 rounded">Admin</span>' : '<span class="text-xs bg-blue-500 text-white px-2 py-1 rounded">Client</span>'}
+                                </div>
+                                <p class="text-gray-800 dark:text-gray-200">${sanitizeHtml(data.message)}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">${formatDate(data.createdAt)}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Scroll vers le bas
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        
+    } catch (error) {
+        console.error('Error loading messages:', error);
+        messagesDiv.innerHTML = '<p class="text-red-500 text-center">Erreur de chargement</p>';
+    }
+}
+
+async function sendTicketReply(ticketId) {
+    const input = document.getElementById('ticketReplyInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    if (message.length < 2) {
+        alert('Le message doit contenir au moins 2 caractères');
+        return;
+    }
+    
+    try {
+        // Ajouter le message
+        await db.collection('tickets').doc(ticketId).collection('messages').add({
+            userId: currentUser.uid,
+            userName: 'Admin',
+            message: message,
+            isAdmin: true,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Mettre à jour le ticket
+        await db.collection('tickets').doc(ticketId).update({
+            status: 'en_cours',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        input.value = '';
+        
+    } catch (error) {
+        console.error('Error sending reply:', error);
+        alert('Erreur lors de l\'envoi du message');
+    }
 }
 
 // ============================================================
