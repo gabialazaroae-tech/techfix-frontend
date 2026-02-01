@@ -16,8 +16,9 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-db.settings({ cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED });
-db.enablePersistence().catch(() => {});
+// Désactivé temporairement pour éviter les erreurs
+// db.settings({ cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED });
+// db.enablePersistence().catch(() => {});
 
 // ============================================================
 // 🔐 SÉCURITÉ - Sanitisation côté client
