@@ -249,6 +249,9 @@ async function loadDevis() {
                     <div class="flex items-center justify-between">
                         <span class="text-xs text-gray-500 dark:text-gray-400">${formatDate(data.createdAt)}</span>
                         <div class="flex gap-2">
+                            <button onclick="viewDevis('${doc.id}')" class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                                Voir
+                            </button>
                             <button onclick="updateDevisStatus('${doc.id}', 'en_cours')" class="px-3 py-1 bg-yellow-500 text-white rounded text-sm hover:bg-yellow-600">
                                 En cours
                             </button>
@@ -315,9 +318,14 @@ async function loadContact() {
                     <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">${sanitizeHtml(data.message).substring(0, 200)}...</p>
                     <div class="flex items-center justify-between">
                         <span class="text-xs text-gray-500 dark:text-gray-400">${formatDate(data.createdAt)}</span>
-                        <button onclick="updateContactStatus('${doc.id}', 'traite')" class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">
-                            Marquer comme traité
-                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="viewContact('${doc.id}')" class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                                Voir
+                            </button>
+                            <button onclick="updateContactStatus('${doc.id}', 'traite')" class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">
+                                Traité
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
@@ -550,6 +558,244 @@ async function sendTicketReply(ticketId) {
     } catch (error) {
         console.error('Error sending reply:', error);
         alert('Erreur lors de l\'envoi du message');
+    }
+}
+
+// ============================================================
+// CHAT LIVE
+// ============================================================
+
+// ============================================================
+// VIEW DEVIS MODAL - AVEC BOUTONS DE RÉPONSE
+// ============================================================
+
+async function viewDevis(devisId) {
+    try {
+        const devisDoc = await db.collection('devis').doc(devisId).get();
+        if (!devisDoc.exists) {
+            alert('Devis non trouvé');
+            return;
+        }
+        
+        const data = devisDoc.data();
+        
+        // Créer le modal
+        const modal = document.createElement('div');
+        modal.id = 'devisModal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full p-8 max-h-screen overflow-y-auto">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">📧 Demande de Devis</h2>
+                        ${getStatusBadge(data.status)}
+                    </div>
+                    <button onclick="closeDevisModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-3">👤 Informations Client</h3>
+                        <div class="space-y-2">
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Nom:</strong> ${sanitizeHtml(data.nom)}</p>
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Email:</strong> <a href="mailto:${sanitizeHtml(data.email)}" class="text-violet-600 hover:underline">${sanitizeHtml(data.email)}</a></p>
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Téléphone:</strong> <a href="tel:${sanitizeHtml(data.telephone)}" class="text-violet-600 hover:underline">${sanitizeHtml(data.telephone)}</a></p>
+                            ${data.ville ? `<p class="text-gray-700 dark:text-gray-300"><strong>Ville:</strong> ${sanitizeHtml(data.ville)}</p>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-3">🔧 Détails de la Demande</h3>
+                        <div class="space-y-2">
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Service:</strong> ${sanitizeHtml(data.service)}</p>
+                            ${data.urgence ? `<p class="text-gray-700 dark:text-gray-300"><strong>Urgence:</strong> ${sanitizeHtml(data.urgence)}</p>` : ''}
+                            ${data.deplacement ? `<p class="text-gray-700 dark:text-gray-300"><strong>Déplacement:</strong> ${sanitizeHtml(data.deplacement)}</p>` : ''}
+                            ${data.budget ? `<p class="text-gray-700 dark:text-gray-300"><strong>Budget estimé:</strong> ${sanitizeHtml(data.budget)}</p>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-3">📝 Description</h3>
+                        <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">${sanitizeHtml(data.description)}</p>
+                    </div>
+                    
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        📅 Reçu le ${formatDate(data.createdAt)}
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <a href="mailto:${sanitizeHtml(data.email)}?subject=Réponse à votre demande de devis - ${encodeURIComponent(data.service)}&body=Bonjour ${sanitizeHtml(data.nom)},%0D%0A%0D%0AMerci pour votre demande de devis concernant : ${encodeURIComponent(data.service)}%0D%0A%0D%0A" class="flex-1 bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition text-center">
+                        📧 Répondre par Email
+                    </a>
+                    <a href="tel:${sanitizeHtml(data.telephone)}" class="px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600 transition">
+                        📞 Appeler
+                    </a>
+                    <button onclick="copyDevisInfo('${devisId}')" class="px-6 py-3 bg-gray-500 text-white rounded-lg font-bold hover:bg-gray-600 transition">
+                        📋 Copier
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+    } catch (error) {
+        console.error('Error viewing devis:', error);
+        alert('Erreur lors de l\'ouverture du devis');
+    }
+}
+
+function closeDevisModal() {
+    const modal = document.getElementById('devisModal');
+    if (modal) modal.remove();
+}
+
+async function copyDevisInfo(devisId) {
+    try {
+        const devisDoc = await db.collection('devis').doc(devisId).get();
+        const data = devisDoc.data();
+        
+        const info = `
+DEMANDE DE DEVIS
+================
+Nom: ${data.nom}
+Email: ${data.email}
+Téléphone: ${data.telephone}
+${data.ville ? `Ville: ${data.ville}` : ''}
+
+Service: ${data.service}
+${data.urgence ? `Urgence: ${data.urgence}` : ''}
+${data.deplacement ? `Déplacement: ${data.deplacement}` : ''}
+${data.budget ? `Budget: ${data.budget}` : ''}
+
+Description:
+${data.description}
+
+Reçu le: ${formatDate(data.createdAt)}
+        `.trim();
+        
+        await navigator.clipboard.writeText(info);
+        alert('✅ Informations copiées dans le presse-papier!');
+    } catch (error) {
+        console.error('Error copying:', error);
+        alert('❌ Erreur lors de la copie');
+    }
+}
+
+// ============================================================
+// VIEW CONTACT MODAL - AVEC BOUTONS DE RÉPONSE
+// ============================================================
+
+async function viewContact(contactId) {
+    try {
+        const contactDoc = await db.collection('contact').doc(contactId).get();
+        if (!contactDoc.exists) {
+            alert('Message non trouvé');
+            return;
+        }
+        
+        const data = contactDoc.data();
+        
+        // Créer le modal
+        const modal = document.createElement('div');
+        modal.id = 'contactModal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full p-8 max-h-screen overflow-y-auto">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">💬 Message de Contact</h2>
+                        ${getStatusBadge(data.status)}
+                    </div>
+                    <button onclick="closeContactModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-3">👤 Informations Client</h3>
+                        <div class="space-y-2">
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Nom:</strong> ${sanitizeHtml(data.nom)}</p>
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Email:</strong> <a href="mailto:${sanitizeHtml(data.email)}" class="text-violet-600 hover:underline">${sanitizeHtml(data.email)}</a></p>
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Téléphone:</strong> <a href="tel:${sanitizeHtml(data.telephone)}" class="text-violet-600 hover:underline">${sanitizeHtml(data.telephone)}</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-3">📌 Sujet</h3>
+                        <p class="text-gray-700 dark:text-gray-300 text-lg">${sanitizeHtml(data.sujet)}</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-3">💬 Message</h3>
+                        <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">${sanitizeHtml(data.message)}</p>
+                    </div>
+                    
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        📅 Reçu le ${formatDate(data.createdAt)}
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <a href="mailto:${sanitizeHtml(data.email)}?subject=RE: ${encodeURIComponent(data.sujet)}&body=Bonjour ${sanitizeHtml(data.nom)},%0D%0A%0D%0AMerci pour votre message concernant : ${encodeURIComponent(data.sujet)}%0D%0A%0D%0A" class="flex-1 bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition text-center">
+                        📧 Répondre par Email
+                    </a>
+                    <a href="tel:${sanitizeHtml(data.telephone)}" class="px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600 transition">
+                        📞 Appeler
+                    </a>
+                    <button onclick="copyContactInfo('${contactId}')" class="px-6 py-3 bg-gray-500 text-white rounded-lg font-bold hover:bg-gray-600 transition">
+                        📋 Copier
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+    } catch (error) {
+        console.error('Error viewing contact:', error);
+        alert('Erreur lors de l\'ouverture du message');
+    }
+}
+
+function closeContactModal() {
+    const modal = document.getElementById('contactModal');
+    if (modal) modal.remove();
+}
+
+async function copyContactInfo(contactId) {
+    try {
+        const contactDoc = await db.collection('contact').doc(contactId).get();
+        const data = contactDoc.data();
+        
+        const info = `
+MESSAGE DE CONTACT
+==================
+Nom: ${data.nom}
+Email: ${data.email}
+Téléphone: ${data.telephone}
+
+Sujet: ${data.sujet}
+
+Message:
+${data.message}
+
+Reçu le: ${formatDate(data.createdAt)}
+        `.trim();
+        
+        await navigator.clipboard.writeText(info);
+        alert('✅ Informations copiées dans le presse-papier!');
+    } catch (error) {
+        console.error('Error copying:', error);
+        alert('❌ Erreur lors de la copie');
     }
 }
 
