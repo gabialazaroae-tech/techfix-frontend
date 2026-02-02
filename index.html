@@ -26,9 +26,7 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="/cdn-cgi/l/email-protection#dfb8bebdb6f1beb3bea5beadb0beba9fb8b2beb6b3f1bcb0b2"
-                    class="hover:underline"><span class="__cf_email__"
-                        data-cfemail="2f484e4d46014e434e554e5d404e4a6f48424e4643014c4042">[email&#160;protected]</span></a>
+                <a href="#" onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;" class="hover:underline">Email</a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -381,8 +379,7 @@
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                data-cfemail="fc9b9d9e95d29d909d869d8e939d99bc9b919d9590d29f9391">[email&#160;protected]</a>
+                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fc9b9d9e95d29d909d869d8e939d99bc9b919d9590d29f9391">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -430,53 +427,36 @@
         </div>
     </footer>
 
-    <script>
-            // Dark Mode Persistant
-            (function () {
-                const html = document.documentElement;
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'dark') html.classList.add('dark');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+        const html = document.documentElement;
 
-                function toggleDarkMode() {
-                    html.classList.toggle('dark');
-                    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-                }
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.classList.add('dark');
+        }
 
-                document.addEventListener('DOMContentLoaded', function () {
-                    const toggle = document.getElementById('darkModeToggle');
-                    const toggleMobile = document.getElementById('darkModeToggleMobile');
-                    if (toggle) toggle.addEventListener('click', toggleDarkMode);
-                    if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
-                });
-            })();
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        }
 
-        // Mobile Menu
-        document.addEventListener('DOMContentLoaded', function () {
-            const btn = document.getElementById('mobile-menu-btn');
-            const menu = document.getElementById('mobile-menu');
-            if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-        });
+        darkModeToggle.addEventListener('click', toggleDarkMode)ggleDarkMode);
+        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
 
-        // Protection Email
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('[data-email-user]').forEach(function (el) {
-                const user = el.getAttribute('data-email-user');
-                const domain = el.getAttribute('data-email-domain');
-                const email = user + '@' + domain;
-                if (el.tagName === 'A') {
-                    el.href = 'mailto:' + email;
-                }
-                el.textContent = email;
-            });
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
     </script>
 
-    <!-- Firebase & Chat -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
     <script src="chat-widget.js"></script>
 
 </body>
-
 </html>
