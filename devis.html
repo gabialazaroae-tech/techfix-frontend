@@ -32,7 +32,8 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="#" onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;" class="hover:underline">Email</a>
+                <a href="#" onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;"
+                    class="hover:underline">Email</a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -351,7 +352,8 @@
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="620503000b4c030e031803100d030722050f030b0e4c010d0f">[email&#160;protected]</a>
+                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                data-cfemail="620503000b4c030e031803100d030722050f030b0e4c010d0f">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -563,15 +565,13 @@
                 } else {
                     alert('❌ ' + result.message);
                 }
-
-ggleDarkMode);
-        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
-
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'envoi du devis:', error);
+                alert('❌ Erreur lors de l\'envoi du devis');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Envoyer la Demande de Devis';
+            }
         });
     </script>
 
@@ -579,4 +579,5 @@ ggleDarkMode);
     <script src="chat-widget.js"></script>
 
 </body>
+
 </html>
