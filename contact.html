@@ -32,7 +32,9 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="/cdn-cgi/l/email-protection#f29593909bdc939e938893809d9397b2959f939b9edc919d9f"><span class="protected-email-text" data-user="gabi.alazaroae" data-domain="gmail.com">Cliquez pour voir l'email</span></a>
+                <a href="/cdn-cgi/l/email-protection#c6a1a7a4afe8a7aaa7bca7b4a9a7a386a1aba7afaae8a5a9ab"
+                    class="hover:underline"><span class="__cf_email__"
+                        data-cfemail="a6c1c7c4cf88c7cac7dcc7d4c9c7c3e6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -172,7 +174,10 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-gray-900 dark:text-white mb-1">Email</h3>
-                                <a href="/cdn-cgi/l/email-protection#157274777c3b7479746f74677a7470557278747c793b767a78"><span class="protected-email-text" data-user="gabi.alazaroae" data-domain="gmail.com">Cliquez pour voir l'email</span></a>
+                                <a href="/cdn-cgi/l/email-protection#51363033387f303d302b30233e303411363c30383d7f323e3c"
+                                    class="text-violet-600 dark:text-violet-400 hover:underline"><span
+                                        class="__cf_email__"
+                                        data-cfemail="dcbbbdbeb5f2bdb0bda6bdaeb3bdb99cbbb1bdb5b0f2bfb3b1">[email&#160;protected]</span></a>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Réponse sous 24h</p>
                             </div>
                         </div>
@@ -342,7 +347,8 @@
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            gabi.alazaroae@gmail.com
+                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                data-cfemail="177076757e39767b766d766578767257707a767e7b3974787a">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -390,78 +396,104 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Dark Mode Persistant
-    (function() {
-        const html = document.documentElement;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') html.classList.add('dark');
-        
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('darkModeToggle');
-            const toggleMobile = document.getElementById('darkModeToggleMobile');
-            if (toggle) toggle.addEventListener('click', toggleDarkMode);
-            if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
-        });
-    })();
-    
-    // Mobile Menu
-    document.addEventListener('DOMContentLoaded', function() {
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    });
-    
-    // Soumission formulaire
-    document.addEventListener('DOMContentLoaded', function() {
-        const contactForm = document.querySelector('form');
-        const submitButton = contactForm.querySelector('button[type="submit"]');
+    <script>
+            // Dark Mode Persistant
+            (function () {
+                const html = document.documentElement;
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') html.classList.add('dark');
 
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            submitButton.disabled = true;
-            submitButton.textContent = 'Envoi en cours...';
-
-            const formData = {
-                nom: document.getElementById('nom').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                telephone: document.getElementById('telephone').value.trim(),
-                sujet: document.getElementById('sujet').value.trim(),
-                message: document.getElementById('message').value.trim()
-            };
-
-            try {
-                // 1. Firebase
-                if (typeof db !== 'undefined') {
-                    await db.collection('contact').add({
-                        ...formData,
-                        status: 'nouveau',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                function toggleDarkMode() {
+                    html.classList.toggle('dark');
+                    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
                 }
 
-                // 2. Email
-                const response = await fetch('https://techfix-backend.vercel.app/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggle = document.getElementById('darkModeToggle');
+                    const toggleMobile = document.getElementById('darkModeToggleMobile');
+                    if (toggle) toggle.addEventListener('click', toggleDarkMode);
+                    if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
                 });
+            })();
 
-                const result = await response.json();
+        // Mobile Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        });
 
-                if (result.success) {
-                    alert('✅ ' + result.message);
-                    contactForm.reset();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    alert('❌ ' + result.message);
+        // Soumission formulaire contact
+        document.addEventListener('DOMContentLoaded', function () {
+            const contactForm = document.querySelector('form');
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                submitButton.disabled = true;
+                submitButton.textContent = 'Envoi en cours...';
+
+                const formData = {
+                    nom: document.getElementById('nom').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    telephone: document.getElementById('telephone').value.trim(),
+                    sujet: document.getElementById('sujet').value.trim(),
+                    message: document.getElementById('message').value.trim()
+                };
+
+                try {
+                    if (typeof db !== 'undefined') {
+                        await db.collection('contact').add({
+                            ...formData,
+                            status: 'nouveau',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+
+                    const response = await fetch('https://techfix-backend.vercel.app/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('✅ ' + result.message);
+                        contactForm.reset();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        alert('❌ ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Envoyer le Message';
                 }
-            } catch (error) {
-                console.error('Erreur:', error);
-                alert('❌ Erreur
+            });
+        });
+
+        // Protection Email
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-email-user]').forEach(function (el) {
+                const user = el.getAttribute('data-email-user');
+                const domain = el.getAttribute('data-email-domain');
+                const email = user + '@' + domain;
+                if (el.tagName === 'A') {
+                    el.href = 'mailto:' + email;
+                }
+                el.textContent = email;
+            });
+        });
+    </script>
+
+    <!-- Firebase Config & Chat -->
+    <script src="firebase-config.js"></script>
+    <script src="chat-widget.js"></script>
+
+</body>
+
+</html>

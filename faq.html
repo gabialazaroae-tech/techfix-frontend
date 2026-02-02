@@ -26,7 +26,9 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="/cdn-cgi/l/email-protection#afc8cecdc681cec3ced5ceddc0cecaefc8c2cec6c381ccc0c2"><span class="protected-email-text" data-user="gabi.alazaroae" data-domain="gmail.com">Cliquez pour voir l'email</span></a>
+                <a href="/cdn-cgi/l/email-protection#11767073783f707d706b70637e707451767c70787d3f727e7c"
+                    class="hover:underline"><span class="__cf_email__"
+                        data-cfemail="d0b7b1b2b9feb1bcb1aab1a2bfb1b590b7bdb1b9bcfeb3bfbd">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -400,7 +402,8 @@
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            gabi.alazaroae@gmail.com
+                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                data-cfemail="244345464d0a4548455e45564b4541644349454d480a474b49">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -448,48 +451,68 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Dark Mode Persistant
-    (function() {
-        const html = document.documentElement;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') html.classList.add('dark');
-        
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('darkModeToggle');
-            const toggleMobile = document.getElementById('darkModeToggleMobile');
-            if (toggle) toggle.addEventListener('click', toggleDarkMode);
-            if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
-        });
-    })();
-    
-    // Mobile Menu
-    document.addEventListener('DOMContentLoaded', function() {
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    });
-    
-    // FAQ Accordions
-    document.addEventListener('DOMContentLoaded', function() {
-        const faqButtons = document.querySelectorAll('.faq-button');
-        faqButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('svg');
-                if (answer && icon) {
-                    answer.classList.toggle('hidden');
-                    icon.classList.toggle('rotate-180');
+    <script>
+            // Dark Mode Persistant
+            (function () {
+                const html = document.documentElement;
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') html.classList.add('dark');
+
+                function toggleDarkMode() {
+                    html.classList.toggle('dark');
+                    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
                 }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggle = document.getElementById('darkModeToggle');
+                    const toggleMobile = document.getElementById('darkModeToggleMobile');
+                    if (toggle) toggle.addEventListener('click', toggleDarkMode);
+                    if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
+                });
+            })();
+
+        // Mobile Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        });
+
+        // FAQ Accordions
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqButtons = document.querySelectorAll('.faq-button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    if (answer && icon) {
+                        answer.classList.toggle('hidden');
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
             });
         });
-    });
+
+        // Protection Email
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-email-user]').forEach(function (el) {
+                const user = el.getAttribute('data-email-user');
+                const domain = el.getAttribute('data-email-domain');
+                const email = user + '@' + domain;
+                if (el.tagName === 'A') {
+                    el.href = 'mailto:' + email;
+                }
+                el.textContent = email;
+            });
+        });
     </script>
-    
-    <!-- Firebase & Chat Widget -->
-    <script src="https://www.gstatic.com/fireb
+
+    <!-- Firebase & Chat -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="chat-widget.js"></script>
+
+</body>
+
+</html>
