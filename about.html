@@ -445,19 +445,16 @@
                 const html = document.documentElement;
                 const savedTheme = localStorage.getItem('theme');
 
-                // Appliquer le thème IMMÉDIATEMENT (pas de flash)
                 if (savedTheme === 'dark') {
                     html.classList.add('dark');
                 }
 
-                // Fonction pour basculer
                 function toggleDarkMode() {
                     html.classList.toggle('dark');
                     const theme = html.classList.contains('dark') ? 'dark' : 'light';
                     localStorage.setItem('theme', theme);
                 }
 
-                // Attacher aux boutons
                 document.addEventListener('DOMContentLoaded', function () {
                     const darkModeToggle = document.getElementById('darkModeToggle');
                     const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
@@ -471,9 +468,6 @@
                 });
             })();
 
-        // ============================================
-        // MOBILE MENU
-        // ============================================
         document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
