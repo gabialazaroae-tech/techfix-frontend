@@ -817,29 +817,41 @@
     </footer>
 
     <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
-        const html = document.documentElement;
+        (function () {
+                const html = document.documentElement;
+                const savedTheme = localStorage.getItem('theme');
 
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            html.classList.add('dark');
-        }
+                if (savedTheme === 'dark') {
+                    html.classList.add('dark');
+                }
+                function toggleDarkMode() {
+                    html.classList.toggle('dark');
+                    const theme = html.classList.contains('dark') ? 'dark' : 'light';
+                    localStorage.setItem('theme', theme);
+                }
 
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            const theme = html.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-        }
+                document.addEventListener('DOMContentLoaded', function () {
+                    const darkModeToggle = document.getElementById('darkModeToggle');
+                    const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
 
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+                    if (darkModeToggle) {
+                        darkModeToggle.addEventListener('click', toggleDarkMode);
+                    }
+                    if (darkModeToggleMobile) {
+                        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+                    }
+                });
+            })();
 
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
         });
     </script>
 
