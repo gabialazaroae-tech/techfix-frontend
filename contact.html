@@ -9,7 +9,6 @@
 
     <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
@@ -32,8 +31,9 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="#" onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;"
-                    class="hover:underline">Email</a>
+                <a href="/cdn-cgi/l/email-protection#721513101b5c131e130813001d131732151f131b1e5c111d1f"
+                    class="hover:underline"><span class="__cf_email__"
+                        data-cfemail="335452515a1d525f524952415c525673545e525a5f1d505c5e">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -173,9 +173,10 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-gray-900 dark:text-white mb-1">Email</h3>
-                                <a href="#"
-                                    onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;"
-                                    class="hover:underline">Email</a>
+                                <a href="/cdn-cgi/l/email-protection#056264676c2b6469647f64776a6460456268646c692b666a68"
+                                    class="text-violet-600 dark:text-violet-400 hover:underline"><span
+                                        class="__cf_email__"
+                                        data-cfemail="147375767d3a7578756e75667b7571547379757d783a777b79">[email&#160;protected]</span></a>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Réponse sous 24h</p>
                             </div>
                         </div>
@@ -346,7 +347,7 @@
                                 </path>
                             </svg>
                             <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                data-cfemail="177076757e39767b766d766578767257707a767e7b3974787a">[email&#160;protected]</a>
+                                data-cfemail="e78086858ec9868b869d8695888682a7808a868e8bc984888a">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -395,6 +396,11 @@
     </footer>
 
     <!-- Firebase Config -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="firebase-config.js"></script>
+
+    <!-- Chat Widget -->
+    <script src="chat-widget.js"></script>
 
     <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -466,19 +472,20 @@
                 if (result.success) {
                     alert('✅ ' + result.message);
                     contactForm.reset();
-                    window.scrollTo({ top: 0, bggleDarkMode);
-                    darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    alert('❌ ' + result.message);
+                }
 
-                    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-                    const mobileMenu = document.getElementById('mobile-menu');
-
-                    mobileMenuBtn.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Envoyer le Message';
+            }
+        });
     </script>
-
-    <script src="firebase-config.js"></script>
-    <script src="chat-widget.js"></script>
 
 </body>
 
