@@ -7,10 +7,12 @@
     <title>Contact - TechFix Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Firebase Scripts -->
+    <!-- Firebase Scripts – chargés UNE SEULE fois, dans le bon ordre -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Configuration Firebase + helpers -->
     <script src="firebase-config.js"></script>
 
     <script>
@@ -119,6 +121,9 @@
                             <path class="sun" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
                             </path>
+                            <path class="moon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
                         </svg>
                     </button>
                 </div>
@@ -176,7 +181,7 @@
                                 <h3 class="font-bold text-gray-900 dark:text-white mb-1">Email</h3>
                                 <a href="#"
                                     onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;"
-                                    class="text-violet-600 dark:text-violet-400 hover:underline mt-1">Email</a>
+                                    class="text-violet-600 dark:text-violet-400 hover:underline mt-1">gabi.alazaroae@gmail.com</a>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Réponse sous 24h</p>
                             </div>
                         </div>
@@ -230,13 +235,11 @@
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Envoyez-moi un Message</h2>
 
                     <form class="space-y-6">
-                        <input type="hidden" name="_subject" value="Nouveau message de contact - TechFix Solutions">
-
                         <div>
                             <label for="nom"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nom complet
                                 *</label>
-                            <input type="text" id="nom" name="nom" required
+                            <input type="text" id="nom" required
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600"
                                 placeholder="Jean Dupont">
                         </div>
@@ -245,7 +248,7 @@
                             <label for="email"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email
                                 *</label>
-                            <input type="email" id="email" name="email" required
+                            <input type="email" id="email" required
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600"
                                 placeholder="jean@example.com">
                         </div>
@@ -254,7 +257,7 @@
                             <label for="telephone"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Téléphone
                                 *</label>
-                            <input type="tel" id="telephone" name="telephone" required
+                            <input type="tel" id="telephone" required
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600"
                                 placeholder="0470 12 34 56">
                         </div>
@@ -263,7 +266,7 @@
                             <label for="sujet"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Sujet
                                 *</label>
-                            <input type="text" id="sujet" name="sujet" required
+                            <input type="text" id="sujet" required
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600"
                                 placeholder="Réparation PC, Assemblage, etc.">
                         </div>
@@ -272,7 +275,7 @@
                             <label for="message"
                                 class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message
                                 *</label>
-                            <textarea id="message" name="message" required rows="6"
+                            <textarea id="message" required rows="6"
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none"
                                 placeholder="Décrivez votre besoin ou votre problème..."></textarea>
                         </div>
@@ -287,36 +290,7 @@
         </div>
     </section>
 
-    <section class="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-8">Où Me Trouver?</h2>
-            <div class="max-w-5xl mx-auto">
-                <div class="bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg">
-                    <div class="h-96">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d40295.77607788268!2d4.202899!3d50.887157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c4c4f8f8f8f8%3A0x0!2sTernat!5e0!3m2!1sfr!2sbe!4v1234567890"
-                            class="w-full h-full border-0" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade" title="Localisation TechFix Solutions à Ternat">
-                        </iframe>
-                    </div>
-                    <div class="p-6 bg-gradient-to-r from-violet-600 to-blue-500">
-                        <div class="flex items-center justify-between text-white">
-                            <div>
-                                <h3 class="font-bold text-xl mb-1">TechFix Solutions</h3>
-                                <p class="text-violet-100">Ternat, Belgique</p>
-                            </div>
-                            <a href="https://www.google.com/maps/search/Ternat+Belgique" target="_blank"
-                                rel="noopener noreferrer"
-                                class="bg-white text-violet-600 px-6 py-3 rounded-full font-bold hover:shadow-xl transition">
-                                Itinéraire
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- Pied de page (inchangé) -->
     <footer class="bg-gray-900 dark:bg-black text-gray-300 py-12 transition-colors duration-300">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
@@ -391,120 +365,100 @@
             </div>
 
             <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-                <p>&copy; 2026 TechFix Solutions - Tous droits réservés</p>
+                <p>© 2026 TechFix Solutions - Tous droits réservés</p>
             </div>
         </div>
     </footer>
 
-    <!-- Firebase Config -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="firebase-config.js"></script>
-
-    <!-- Chat Widget -->
+    <!-- Scripts finaux – chargés une seule fois -->
     <script src="chat-widget.js"></script>
 
+    <!-- Gestion dark mode + menu mobile + formulaire -->
     <script>
-            (function () {
-                const html = document.documentElement;
-                const savedTheme = localStorage.getItem('theme');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dark mode
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') html.classList.add('dark');
 
-                if (savedTheme === 'dark') {
-                    html.classList.add('dark');
-                }
+            function toggleDarkMode() {
+                html.classList.toggle('dark');
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            }
 
-                function toggleDarkMode() {
-                    html.classList.toggle('dark');
-                    const theme = html.classList.contains('dark') ? 'dark' : 'light';
-                    localStorage.setItem('theme', theme);
-                }
+            document.getElementById('darkModeToggle')?.addEventListener('click', toggleDarkMode);
+            document.getElementById('darkModeToggleMobile')?.addEventListener('click', toggleDarkMode);
 
-                document.addEventListener('DOMContentLoaded', function () {
-                    const darkModeToggle = document.getElementById('darkModeToggle');
-                    const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
-
-                    if (darkModeToggle) {
-                        darkModeToggle.addEventListener('click', toggleDarkMode);
-                    }
-                    if (darkModeToggleMobile) {
-                        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
-                    }
-                });
-            })();
-
-        document.addEventListener('DOMContentLoaded', function () {
+            // Menu mobile
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-
             if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
+                mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             }
-        });
 
-        // ============================================================
-        // 🔥 SOUMISSION DU FORMULAIRE - FIREBASE + NODEMAILER
-        // ============================================================
-        const contactForm = document.querySelector('form');
-        const submitButton = contactForm.querySelector('button[type="submit"]');
+            // Soumission formulaire
+            const contactForm = document.querySelector('form');
+            if (!contactForm) return;
 
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            const submitButton = contactForm.querySelector('button[type="submit"]');
 
-            submitButton.disabled = true;
-            submitButton.textContent = 'Envoi en cours...';
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-            const formData = {
-                nom: document.getElementById('nom').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                telephone: document.getElementById('telephone').value.trim(),
-                sujet: document.getElementById('sujet').value.trim(),
-                message: document.getElementById('message').value.trim()
-            };
+                if (typeof window.db === 'undefined') {
+                    alert('❌ Erreur technique : connexion Firebase indisponible. Veuillez réessayer ou appeler le 0470 68 29 27');
+                    return;
+                }
 
-            try {
-                // 1. ENVOYER À FIREBASE
-                if (typeof db !== 'undefined') {
-                    await db.collection('contact').add({
+                submitButton.disabled = true;
+                submitButton.textContent = 'Envoi en cours...';
+
+                const formData = {
+                    nom: document.getElementById('nom')?.value.trim() || '',
+                    email: document.getElementById('email')?.value.trim() || '',
+                    telephone: document.getElementById('telephone')?.value.trim() || '',
+                    sujet: document.getElementById('sujet')?.value.trim() || '',
+                    message: document.getElementById('message')?.value.trim() || ''
+                };
+
+                try {
+                    // 1. Enregistrement Firebase
+                    await window.db.collection('contact').add({
                         ...formData,
                         status: 'nouveau',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    console.log('✅ Message enregistré dans Firebase');
+                    console.log('Message enregistré dans Firebase');
+
+                    // 2. Envoi email via backend
+                    const response = await fetch('https://techfix-backend.vercel.app/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('✅ ' + (result.message || 'Message envoyé avec succès !'));
+                        contactForm.reset();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        alert('❌ ' + (result.message || 'Erreur lors de l’envoi'));
+                    }
+                } catch (error) {
+                    console.error('Erreur envoi:', error);
+                    alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Envoyer le Message';
                 }
-
-                // 2. ENVOYER PAR EMAIL (Nodemailer)
-                const response = await fetch('https://techfix-backend.vercel.app/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('✅ ' + result.message);
-                    contactForm.reset();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    alert('❌ ' + result.message);
-                }
-
-            } catch (error) {
-                console.error('Erreur:', error);
-                alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Envoyer le Message';
-            }
+            });
         });
     </script>
-
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="chat-widget.js"></script>
 
 </body>
 
