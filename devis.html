@@ -32,9 +32,9 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="/cdn-cgi/l/email-protection#3c5b5d5e55125d505d465d4e535d597c5b515d5550125f5351"
+                <a href="/cdn-cgi/l/email-protection#254244474c0b4449445f44574a4440654248444c490b464a48"
                     class="hover:underline"><span class="__cf_email__"
-                        data-cfemail="fb9c9a9992d59a979a819a89949a9ebb9c969a9297d5989496">[email&#160;protected]</span></a>
+                        data-cfemail="f79096959ed9969b968d9685989692b7909a969e9bd994989a">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -354,7 +354,7 @@
                                 </path>
                             </svg>
                             <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                data-cfemail="7e191f1c17501f121f041f0c111f1b3e19131f1712501d1113">[email&#160;protected]</a>
+                                data-cfemail="cfa8aeada6e1aea3aeb5aebda0aeaa8fa8a2aea6a3e1aca0a2">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -402,185 +402,166 @@
         </div>
     </footer>
 
-    <!-- Firebase Config -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="firebase-config.js"></script>
-
-    <!-- Chat Widget -->
-    <script src="chat-widget.js"></script>
-
     <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
-        const html = document.documentElement;
+            // Dark Mode Persistant
+            (function () {
+                const html = document.documentElement;
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') html.classList.add('dark');
 
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            html.classList.add('dark');
-        }
+                function toggleDarkMode() {
+                    html.classList.toggle('dark');
+                    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+                }
 
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            const theme = html.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-        }
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggle = document.getElementById('darkModeToggle');
+                    const toggleMobile = document.getElementById('darkModeToggleMobile');
+                    if (toggle) toggle.addEventListener('click', toggleDarkMode);
+                    if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
+                });
+            })();
 
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
-
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Mobile Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
         });
 
-        // Gestion des champs conditionnels
-        const serviceSelect = document.getElementById('service');
-        const urgenceField = document.getElementById('urgenceField');
-        const deplacementField = document.getElementById('deplacementField');
-        const budgetField = document.getElementById('budgetField');
-        const descriptionTextarea = document.getElementById('description');
+        // Champs conditionnels
+        document.addEventListener('DOMContentLoaded', function () {
+            const serviceSelect = document.getElementById('service');
+            const urgenceField = document.getElementById('urgenceField');
+            const deplacementField = document.getElementById('deplacementField');
+            const budgetField = document.getElementById('budgetField');
+            const descriptionTextarea = document.getElementById('description');
 
-        const serviceDescriptions = {
-            'Réparation PC Desktop': 'Bonjour,\n\nMon PC ne fonctionne pas correctement. Je souhaiterais un diagnostic et une réparation.\n\nProblème constaté: [Décrivez votre problème ici]\n\nMerci de me recontacter.',
-            'Assemblage PC Sur Mesure': 'Bonjour,\n\nJe souhaite faire assembler un PC sur mesure.\n\nUtilisation prévue: [Gaming / Bureautique / etc.]\nBudget approximatif: [Indiquez votre budget]\n\nMerci de me proposer une configuration adaptée.',
-            'Remplacement de Composants': 'Bonjour,\n\nJe souhaite remplacer ou upgrader des composants de mon PC.\n\nComposant(s) concerné(s): [RAM / SSD / etc.]\n\nMerci pour votre devis.',
-            'Installation Windows': 'Bonjour,\n\nJe souhaite une installation Windows propre sur mon PC.\n\nVersion souhaitée: [Windows 10 / Windows 11]\n\nMerci de me recontacter.',
-            'Écran Bleu/Noir - Fix': 'Bonjour,\n\nMon PC affiche un écran bleu (BSOD) ou écran noir.\n\nFréquence du problème: [Toujours / Parfois / etc.]\n\nMerci de m\'aider à résoudre ce problème.',
-            'Diagnostic & Résolution de Bugs': 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / etc.]\n\nMerci de procéder à une analyse complète.'
-        };
-
-        function updateFormFields(serviceValue) {
-            urgenceField.classList.add('hidden');
-            deplacementField.classList.add('hidden');
-            budgetField.classList.add('hidden');
-
-            if (serviceDescriptions[serviceValue]) {
-                descriptionTextarea.value = serviceDescriptions[serviceValue];
-            }
-
-            switch (serviceValue) {
-                case 'Réparation PC Desktop':
-                    urgenceField.classList.remove('hidden');
-                    deplacementField.classList.remove('hidden');
-                    break;
-                case 'Assemblage PC Sur Mesure':
-                    deplacementField.classList.remove('hidden');
-                    budgetField.classList.remove('hidden');
-                    break;
-                case 'Remplacement de Composants':
-                    urgenceField.classList.remove('hidden');
-                    deplacementField.classList.remove('hidden');
-                    break;
-                case 'Installation Windows':
-                    deplacementField.classList.remove('hidden');
-                    break;
-                case 'Écran Bleu/Noir - Fix':
-                    urgenceField.classList.remove('hidden');
-                    deplacementField.classList.remove('hidden');
-                    break;
-                case 'Diagnostic & Résolution de Bugs':
-                    urgenceField.classList.remove('hidden');
-                    deplacementField.classList.remove('hidden');
-                    break;
-                case 'Autre':
-                    urgenceField.classList.remove('hidden');
-                    deplacementField.classList.remove('hidden');
-                    budgetField.classList.remove('hidden');
-                    break;
-            }
-        }
-
-        serviceSelect.addEventListener('change', function () {
-            updateFormFields(this.value);
-        });
-
-        // Pré-remplir depuis URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const serviceParam = urlParams.get('service');
-
-        const serviceMapping = {
-            'reparation': 'Réparation PC Desktop',
-            'assemblage': 'Assemblage PC Sur Mesure',
-            'composants': 'Remplacement de Composants',
-            'windows': 'Installation Windows',
-            'bluescreen': 'Écran Bleu/Noir - Fix',
-            'diagnose': 'Diagnostic & Résolution de Bugs',
-            'diagnostic': 'Diagnostic & Résolution de Bugs'
-        };
-
-        if (serviceParam && serviceMapping[serviceParam]) {
-            serviceSelect.value = serviceMapping[serviceParam];
-            updateFormFields(serviceMapping[serviceParam]);
-            setTimeout(() => {
-                serviceSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
-        }
-
-        // ============================================================
-        // 🔥 SOUMISSION DU FORMULAIRE - FIREBASE + NODEMAILER
-        // ============================================================
-        const devisForm = document.querySelector('form');
-        const submitButton = devisForm.querySelector('button[type="submit"]');
-
-        devisForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            submitButton.disabled = true;
-            submitButton.textContent = 'Envoi en cours...';
-
-            const deplacementRadio = document.querySelector('input[name="deplacement"]:checked');
-            const formData = {
-                nom: document.getElementById('nom').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                telephone: document.getElementById('telephone').value.trim(),
-                ville: document.getElementById('ville').value.trim(),
-                service: document.getElementById('service').value,
-                urgence: document.getElementById('urgence') ? document.getElementById('urgence').value : '',
-                deplacement: deplacementRadio ? deplacementRadio.value : '',
-                description: document.getElementById('description').value.trim(),
-                budget: document.getElementById('budget') ? document.getElementById('budget').value.trim() : ''
+            const serviceDescriptions = {
+                'Réparation PC Desktop': 'Bonjour,\n\nMon PC ne fonctionne pas correctement. Je souhaiterais un diagnostic et une réparation.\n\nProblème constaté: [Décrivez votre problème ici]\n\nMerci de me recontacter.',
+                'Assemblage PC Sur Mesure': 'Bonjour,\n\nJe souhaite faire assembler un PC sur mesure.\n\nUtilisation prévue: [Gaming / Bureautique / etc.]\nBudget approximatif: [Indiquez votre budget]\n\nMerci de me proposer une configuration adaptée.',
+                'Remplacement de Composants': 'Bonjour,\n\nJe souhaite remplacer ou upgrader des composants de mon PC.\n\nComposant(s) concerné(s): [RAM / SSD / etc.]\n\nMerci pour votre devis.',
+                'Installation Windows': 'Bonjour,\n\nJe souhaite une installation Windows propre sur mon PC.\n\nVersion souhaitée: [Windows 10 / Windows 11]\n\nMerci de me recontacter.',
+                'Écran Bleu/Noir - Fix': 'Bonjour,\n\nMon PC affiche un écran bleu (BSOD) ou écran noir.\n\nFréquence du problème: [Toujours / Parfois / etc.]\n\nMerci de m\'aider à résoudre ce problème.',
+                'Diagnostic & Résolution de Bugs': 'Bonjour,\n\nJe souhaite un diagnostic complet de mon PC.\n\nProblèmes constatés: [Lenteur / Erreurs / etc.]\n\nMerci de procéder à une analyse complète.'
             };
 
-            try {
-                // 1. ENVOYER À FIREBASE
-                if (typeof db !== 'undefined') {
-                    await db.collection('devis').add({
-                        ...formData,
-                        status: 'nouveau',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    console.log('✅ Devis enregistré dans Firebase');
+            function updateFormFields(serviceValue) {
+                urgenceField.classList.add('hidden');
+                deplacementField.classList.add('hidden');
+                budgetField.classList.add('hidden');
+
+                if (serviceDescriptions[serviceValue]) {
+                    descriptionTextarea.value = serviceDescriptions[serviceValue];
                 }
 
-                // 2. ENVOYER PAR EMAIL (Nodemailer)
-                const response = await fetch('https://techfix-backend.vercel.app/api/devis', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('✅ ' + result.message);
-                    devisForm.reset();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    alert('❌ ' + result.message);
+                switch (serviceValue) {
+                    case 'Réparation PC Desktop':
+                    case 'Remplacement de Composants':
+                    case 'Écran Bleu/Noir - Fix':
+                    case 'Diagnostic & Résolution de Bugs':
+                        urgenceField.classList.remove('hidden');
+                        deplacementField.classList.remove('hidden');
+                        break;
+                    case 'Assemblage PC Sur Mesure':
+                        deplacementField.classList.remove('hidden');
+                        budgetField.classList.remove('hidden');
+                        break;
+                    case 'Installation Windows':
+                        deplacementField.classList.remove('hidden');
+                        break;
+                    case 'Autre':
+                        urgenceField.classList.remove('hidden');
+                        deplacementField.classList.remove('hidden');
+                        budgetField.classList.remove('hidden');
+                        break;
                 }
+            }
 
-            } catch (error) {
-                console.error('Erreur:', error);
-                alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Envoyer la Demande de Devis';
+            serviceSelect.addEventListener('change', function () {
+                updateFormFields(this.value);
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const serviceParam = urlParams.get('service');
+            const serviceMapping = {
+                'reparation': 'Réparation PC Desktop',
+                'assemblage': 'Assemblage PC Sur Mesure',
+                'composants': 'Remplacement de Composants',
+                'windows': 'Installation Windows',
+                'bluescreen': 'Écran Bleu/Noir - Fix',
+                'diagnose': 'Diagnostic & Résolution de Bugs'
+            };
+
+            if (serviceParam && serviceMapping[serviceParam]) {
+                serviceSelect.value = serviceMapping[serviceParam];
+                updateFormFields(serviceMapping[serviceParam]);
+                setTimeout(() => serviceSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
             }
         });
+
+        // Soumission formulaire
+        document.addEventListener('DOMContentLoaded', function () {
+            const devisForm = document.querySelector('form');
+            const submitButton = devisForm.querySelector('button[type="submit"]');
+
+            devisForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                submitButton.disabled = true;
+                submitButton.textContent = 'Envoi en cours...';
+
+                const deplacementRadio = document.querySelector('input[name="deplacement"]:checked');
+                const formData = {
+                    nom: document.getElementById('nom').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    telephone: document.getElementById('telephone').value.trim(),
+                    ville: document.getElementById('ville').value.trim(),
+                    service: document.getElementById('service').value,
+                    urgence: document.getElementById('urgence') ? document.getElementById('urgence').value : '',
+                    deplacement: deplacementRadio ? deplacementRadio.value : '',
+                    description: document.getElementById('description').value.trim(),
+                    budget: document.getElementById('budget') ? document.getElementById('budget').value.trim() : ''
+                };
+
+                try {
+                    if (typeof db !== 'undefined') {
+                        await db.collection('devis').add({
+                            ...formData,
+                            status: 'nouveau',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+
+                    const response = await fetch('https://techfix-backend.vercel.app/api/devis', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('✅ ' + result.message);
+                        devisForm.reset();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        alert('❌ ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    alert('❌ Erreur de connexion. Veuillez réessayer ou appeler le 0470 68 29 27');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Envoyer la Demande de Devis';
+                }
+            });
+        });
     </script>
+
+    <!-- Firebase Config & Chat -->
+    <script src="firebase-config.js"></script>
+    <script src="chat-widget.js"></script>
 
 </body>
 

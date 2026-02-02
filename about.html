@@ -26,9 +26,9 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="/cdn-cgi/l/email-protection#d4b3b5b6bdfab5b8b5aeb5a6bbb5b194b3b9b5bdb8fab7bbb9"
+                <a href="/cdn-cgi/l/email-protection#c7a0a6a5aee9a6aba6bda6b5a8a6a287a0aaa6aeabe9a4a8aa"
                     class="hover:underline"><span class="__cf_email__"
-                        data-cfemail="432422212a6d222f223922312c222603242e222a2f6d202c2e">[email&#160;protected]</span></a>
+                        data-cfemail="096e686b602768656873687b66686c496e64686065276a6664">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -390,7 +390,7 @@
                                 </path>
                             </svg>
                             <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                data-cfemail="147375767d3a7578756e75667b7571547379757d783a777b79">[email&#160;protected]</a>
+                                data-cfemail="b6d1d7d4df98d7dad7ccd7c4d9d7d3f6d1dbd7dfda98d5d9db">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -438,41 +438,46 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
-        const html = document.documentElement;
+            // Dark Mode Persistant - PAS de flash entre pages
+            (function () {
+                const html = document.documentElement;
+                const savedTheme = localStorage.getItem('theme');
 
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            html.classList.add('dark');
-        }
+                // Appliquer IMMÉDIATEMENT au chargement
+                if (savedTheme === 'dark') {
+                    html.classList.add('dark');
+                }
 
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            const theme = html.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-        }
+                // Fonction toggle
+                function toggleDarkMode() {
+                    html.classList.toggle('dark');
+                    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+                }
 
-        darkModeToggle.addEventListener('click', toggleDarkMode);
+                // Attacher aux boutons
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggle = document.getElementById('darkModeToggle');
+                    const toggleMobile = document.getElementById('darkModeToggleMobile');
+                    if (toggle) toggle.addEventListener('click', toggleDarkMode);
+                    if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
+                });
+            })();
 
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Mobile Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (btn && menu) {
+                btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+            }
         });
     </script>
 
-    <!-- Firebase Scripts -->
+    <!-- Firebase & Chat Widget -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
-    <!-- Firebase Config -->
     <script src="firebase-config.js"></script>
-
-    <!-- Chat Widget -->
     <script src="chat-widget.js"></script>
 
 </body>

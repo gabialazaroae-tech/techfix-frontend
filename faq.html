@@ -26,9 +26,9 @@
     <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="flex gap-6">
-                <a href="/cdn-cgi/l/email-protection#7d1a1c1f14531c111c071c0f121c183d1a101c1411531e1210"
+                <a href="/cdn-cgi/l/email-protection#741315161d5a1518150e15061b1511341319151d185a171b19"
                     class="hover:underline"><span class="__cf_email__"
-                        data-cfemail="f29593909bdc939e938893809d9397b2959f939b9edc919d9f">[email&#160;protected]</span></a>
+                        data-cfemail="036462616a2d626f627962716c626643646e626a6f2d606c6e">[email&#160;protected]</span></a>
                 <span>Lun - Ven: 9h00 - 18h00</span>
             </div>
             <div class="mt-2 md:mt-0">
@@ -403,7 +403,7 @@
                                 </path>
                             </svg>
                             <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                data-cfemail="2d4a4c4f44034c414c574c5f424c486d4a404c4441034e4240">[email&#160;protected]</a>
+                                data-cfemail="026563606b2c636e637863706d636742656f636b6e2c616d6f">[email&#160;protected]</a>
                         </p>
                         <p class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -451,54 +451,53 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
-        const html = document.documentElement;
+            // Dark Mode Persistant
+            (function () {
+                const html = document.documentElement;
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') html.classList.add('dark');
 
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            html.classList.add('dark');
-        }
+                function toggleDarkMode() {
+                    html.classList.toggle('dark');
+                    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+                }
 
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            const theme = html.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-        }
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggle = document.getElementById('darkModeToggle');
+                    const toggleMobile = document.getElementById('darkModeToggleMobile');
+                    if (toggle) toggle.addEventListener('click', toggleDarkMode);
+                    if (toggleMobile) toggleMobile.addEventListener('click', toggleDarkMode);
+                });
+            })();
 
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
-
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Mobile Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
         });
 
-        const faqButtons = document.querySelectorAll('.faq-button');
-
-        faqButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('svg');
-
-                answer.classList.toggle('hidden');
-                icon.classList.toggle('rotate-180');
+        // FAQ Accordions
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqButtons = document.querySelectorAll('.faq-button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    if (answer && icon) {
+                        answer.classList.toggle('hidden');
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
             });
         });
     </script>
 
-    <!-- Firebase Scripts -->
+    <!-- Firebase & Chat Widget -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
-    <!-- Firebase Config -->
     <script src="firebase-config.js"></script>
-
-    <!-- Chat Widget -->
     <script src="chat-widget.js"></script>
 
 </body>
