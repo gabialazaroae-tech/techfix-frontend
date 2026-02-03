@@ -127,6 +127,20 @@
     <!-- Forum Screen -->
     <div id="forumScreen" class="hidden min-h-screen">
         <!-- Header -->
+
+        <div class="bg-gradient-to-r from-violet-600 to-blue-500 text-white py-2">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm">
+                <div class="flex gap-6">
+                    <a href="#" onclick="location.href='mailto:' + 'gabi.alazaroae' + '@' + 'gmail.com'; return false;"
+                        class="hover:underline">Email</a>
+                    <span>Lun - Ven: 9h00 - 18h00</span>
+                </div>
+                <div class="mt-2 md:mt-0">
+                    <p class="italic">Service PC rapide et fiable à Ternat</p>
+                </div>
+            </div>
+        </div>
+
         <nav class="bg-white dark:bg-gray-800 shadow-md">
             <div class="container mx-auto px-4 py-4">
                 <div class="flex justify-between items-center">
@@ -153,10 +167,6 @@
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <button type="button" data-action="newTicket"
-                            class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition">
-                            + Nouveau Ticket
-                        </button>
                         <span id="userName" class="text-gray-700 dark:text-gray-300 font-medium"></span>
                         <button type="button" data-action="forumLogout"
                             class="text-red-500 hover:text-red-600 font-medium">
@@ -169,7 +179,17 @@
 
         <!-- Tickets List -->
         <div class="container mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Mes Tickets</h1>
+            <!-- Ligne avec titre à gauche + bouton à droite -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                    Mes Tickets
+                </h1>
+
+                <button type="button" data-action="newTicket"
+                    class="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:brightness-110 transition whitespace-nowrap">
+                    + Nouveau Ticket
+                </button>
+            </div>
 
             <div id="ticketsList" class="space-y-4">
                 <p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>
