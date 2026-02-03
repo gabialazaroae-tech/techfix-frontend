@@ -299,7 +299,7 @@ function loadTicketMessages(ticketId) {
     }
 
     // Écouter les messages en temps réel
-    db.collection('tickets').doc(ticketId).collection('messages')
+    unsubscribeTicketMessages = db.collection('tickets').doc(ticketId).collection('messages')
         .orderBy('createdAt', 'asc')
         .onSnapshot(snapshot => {
             if (snapshot.empty) {
