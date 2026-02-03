@@ -5,6 +5,8 @@
 
 let currentUser = null;
 let currentTicketId = null;
+let unsubscribeMessages = null;
+let unsubscribeTicketMessages = null;
 
 // ============================================================
 // AUTHENTICATION
@@ -16,10 +18,10 @@ auth.onAuthStateChanged(async (user) => {
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('forumScreen').classList.remove('hidden');
         document.getElementById('userName').textContent = user.email.split('@')[0];
-        
+
         // Créer/mettre à jour le profil utilisateur
         await ensureUserProfile(user);
-        
+
         // Charger les tickets
         loadUserTickets();
     } else {
@@ -32,10 +34,10 @@ auth.onAuthStateChanged(async (user) => {
 // Login
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
-    
+
     try {
         await auth.signInWithEmailAndPassword(email, password);
     } catch (error) {
@@ -47,19 +49,19 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 // Register
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const name = document.getElementById('registerName').value.trim();
     const email = document.getElementById('registerEmail').value.trim();
     const password = document.getElementById('registerPassword').value;
-    
+
     if (password.length < 6) {
         showAuthError('Le mot de passe doit contenir au moins 6 caractères');
         return;
     }
-    
+
     try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        
+
         // Créer le profil utilisateur
         await db.collection('users').doc(userCredential.user.uid).set({
             email: email,
@@ -67,7 +69,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             isAdmin: false,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
+
     } catch (error) {
         console.error('Register error:', error);
         showAuthError(getAuthErrorMessage(error.code));
@@ -134,7 +136,7 @@ function getAuthErrorMessage(code) {
 async function loadUserTickets() {
     const ticketsList = document.getElementById('ticketsList');
     ticketsList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>';
-    
+
     try {
         // Écouter les tickets de l'utilisateur en temps réel
         db.collection('tickets')
@@ -152,7 +154,7 @@ async function loadUserTickets() {
                     `;
                     return;
                 }
-                
+
                 ticketsList.innerHTML = snapshot.docs.map(doc => {
                     const data = doc.data();
                     return `
@@ -173,7 +175,7 @@ async function loadUserTickets() {
                     `;
                 }).join('');
             });
-        
+
     } catch (error) {
         console.error('Error loading tickets:', error);
         ticketsList.innerHTML = '<p class="text-red-500 text-center py-4">Erreur de chargement</p>';
@@ -196,30 +198,30 @@ document.addEventListener('click', (e) => {
 
 document.getElementById('newTicketForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const titre = document.getElementById('ticketTitre').value.trim();
     const priority = document.getElementById('ticketPriority').value;
     const description = document.getElementById('ticketDescription').value.trim();
-    
+
     if (!titre || !description) {
         alert('Veuillez remplir tous les champs obligatoires');
         return;
     }
-    
+
     if (titre.length < 5) {
         alert('Le titre doit contenir au moins 5 caractères');
         return;
     }
-    
+
     if (description.length < 10) {
         alert('La description doit contenir au moins 10 caractères');
         return;
     }
-    
+
     try {
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         const userName = userDoc.exists ? userDoc.data().name : currentUser.email.split('@')[0];
-        
+
         // Créer le ticket
         const ticketRef = await db.collection('tickets').add({
             userId: currentUser.uid,
@@ -231,7 +233,7 @@ document.getElementById('newTicketForm').addEventListener('submit', async (e) =>
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
+
         // Créer le premier message (la description)
         await db.collection('tickets').doc(ticketRef.id).collection('messages').add({
             userId: currentUser.uid,
@@ -240,14 +242,14 @@ document.getElementById('newTicketForm').addEventListener('submit', async (e) =>
             isAdmin: false,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
+
         // Fermer le modal
         document.getElementById('newTicketModal').classList.add('hidden');
         document.getElementById('newTicketForm').reset();
-        
+
         // Ouvrir le nouveau ticket
         setTimeout(() => openTicketDetail(ticketRef.id), 500);
-        
+
     } catch (error) {
         console.error('Error creating ticket:', error);
         alert('Erreur lors de la création du ticket');
@@ -260,29 +262,29 @@ document.getElementById('newTicketForm').addEventListener('submit', async (e) =>
 
 async function openTicketDetail(ticketId) {
     currentTicketId = ticketId;
-    
+
     try {
         const ticketDoc = await db.collection('tickets').doc(ticketId).get();
         if (!ticketDoc.exists) {
             alert('Ticket non trouvé');
             return;
         }
-        
+
         const data = ticketDoc.data();
-        
+
         // Afficher les infos du ticket
         document.getElementById('ticketDetailTitle').textContent = data.titre;
         document.getElementById('ticketDetailBadges').innerHTML = `
             ${getStatusBadge(data.status)}
             ${getPriorityBadge(data.priority)}
         `;
-        
+
         // Charger les messages
         loadTicketMessages(ticketId);
-        
+
         // Afficher le modal
         document.getElementById('ticketDetailModal').classList.remove('hidden');
-        
+
     } catch (error) {
         console.error('Error opening ticket:', error);
         alert('Erreur lors de l\'ouverture du ticket');
@@ -291,7 +293,11 @@ async function openTicketDetail(ticketId) {
 
 function loadTicketMessages(ticketId) {
     const messagesDiv = document.getElementById('ticketMessages');
-    
+
+    if (unsubscribeTicketMessages) {
+        unsubscribeTicketMessages();
+    }
+
     // Écouter les messages en temps réel
     db.collection('tickets').doc(ticketId).collection('messages')
         .orderBy('createdAt', 'asc')
@@ -300,7 +306,7 @@ function loadTicketMessages(ticketId) {
                 messagesDiv.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-4">Aucun message</p>';
                 return;
             }
-            
+
             messagesDiv.innerHTML = snapshot.docs.map(doc => {
                 const data = doc.data();
                 const isAdmin = data.isAdmin;
@@ -317,7 +323,7 @@ function loadTicketMessages(ticketId) {
                     </div>
                 `;
             }).join('');
-            
+
             // Scroll vers le bas
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         });
@@ -327,6 +333,13 @@ function loadTicketMessages(ticketId) {
 document.addEventListener('click', (e) => {
     if (e.target.closest('[data-action="closeDetailModal"]')) {
         document.getElementById('ticketDetailModal').classList.add('hidden');
+
+        // Arrêter d'écouter les messages
+        if (unsubscribeTicketMessages) {
+            unsubscribeTicketMessages();
+            unsubscribeTicketMessages = null;
+        }
+
         currentTicketId = null;
     }
 });
@@ -334,23 +347,23 @@ document.addEventListener('click', (e) => {
 // Reply to ticket
 document.getElementById('replyForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     if (!currentTicketId) return;
-    
+
     const input = document.getElementById('replyInput');
     const message = input.value.trim();
-    
+
     if (!message) return;
-    
+
     if (message.length < 2) {
         alert('Le message doit contenir au moins 2 caractères');
         return;
     }
-    
+
     try {
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         const userName = userDoc.exists ? userDoc.data().name : currentUser.email.split('@')[0];
-        
+
         // Ajouter le message
         await db.collection('tickets').doc(currentTicketId).collection('messages').add({
             userId: currentUser.uid,
@@ -359,14 +372,23 @@ document.getElementById('replyForm').addEventListener('submit', async (e) => {
             isAdmin: false,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
+
+        // Message de bienvenue automatique
+        await db.collection('tickets').doc(ticketRef.id).collection('messages').add({
+            userId: 'system',
+            userName: 'TechFix Support',
+            message: 'Bonjour! Merci pour votre message. Un membre de notre équipe vous répondra dans les plus brefs délais.',
+            isAdmin: true,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
         // Mettre à jour le ticket
         await db.collection('tickets').doc(currentTicketId).update({
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
+
         input.value = '';
-        
+
     } catch (error) {
         console.error('Error sending reply:', error);
         alert('Erreur lors de l\'envoi du message');
