@@ -355,6 +355,44 @@
         </div>
     </section>
 
+    <section class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    ⭐ Ce que disent mes clients
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Découvrez les retours d'expérience de clients satisfaits
+                </p>
+            </div>
+            <div id="avisContainer" class="max-w-7xl mx-auto"></div>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-violet-600 dark:text-violet-400 mb-2" id="totalAvis">-</div>
+                    <p class="text-gray-600 dark:text-gray-400">Avis clients</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-violet-600 dark:text-violet-400 mb-2" id="moyenneNote">-</div>
+                    <p class="text-gray-600 dark:text-gray-400">Note moyenne</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-violet-600 dark:text-violet-400 mb-2">100%</div>
+                    <p class="text-gray-600 dark:text-gray-400">Satisfaction</p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                    Vous avez bénéficié de mes services?
+                </p>
+                <a href="contact.html"
+                    class="inline-block bg-gradient-to-r from-violet-600 to-blue-500 text-white px-8 py-3 rounded-full font-bold hover:shadow-xl transition">
+                    Laissez votre avis
+                </a>
+            </div>
+        </div>
+    </section>
+
+
     <footer class="bg-gray-900 dark:bg-black text-gray-300 py-12 transition-colors duration-300">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
@@ -472,12 +510,45 @@
                 });
             }
         });
+
+        function updateAvisStats() {
+            if (typeof db === 'undefined') return;
+
+            db.collection('avis')
+                .where('approuve', '==', true)
+                .get()
+                .then(snapshot => {
+                    const total = snapshot.size;
+                    const totalAvisEl = document.getElementById('totalAvis');
+                    const moyenneNoteEl = document.getElementById('moyenneNote');
+
+                    if (totalAvisEl) totalAvisEl.textContent = total;
+
+                    if (total > 0 && moyenneNoteEl) {
+                        let sum = 0;
+                        snapshot.docs.forEach(doc => {
+                            sum += doc.data().note || 0;
+                        });
+                        const moyenne = (sum / total).toFixed(1);
+                        moyenneNoteEl.innerHTML = `${moyenne} <span class="text-yellow-400">⭐</span>`;
+                    }
+                })
+                .catch(err => console.error('Erreur stats avis:', err));
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', updateAvisStats);
+        } else {
+            updateAvisStats();
+        }
+
     </script>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
     <script src="chat-widget.js"></script>
+    <script src="avis-functions.js"></script>
 
 </body>
 
