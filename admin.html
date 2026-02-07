@@ -71,7 +71,9 @@
         </div>
     </div>
 
+    <!-- Admin Panel -->
     <div id="adminPanel" class="hidden min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+        <!-- Header avec toggle dark mode -->
         <nav class="bg-white dark:bg-gray-800 shadow-md">
             <div class="container mx-auto px-4 py-4">
                 <div class="flex justify-between items-center">
@@ -83,19 +85,22 @@
                         <div class="hidden md:flex items-center gap-6">
                             <button
                                 class="nav-btn text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition"
-                                data-section="dashboard">📊 Dashboard</button>
+                                data-section="dashboard" onclick="showSection('dashboard')">📊 Dashboard</button>
                             <button
                                 class="nav-btn text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition"
-                                data-section="devis">📧 Devis</button>
+                                data-section="devis" onclick="showSection('devis')">📧 Devis</button>
                             <button
                                 class="nav-btn text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition"
-                                data-section="contact">💬 Contact</button>
+                                data-section="contact" onclick="showSection('contact')">💬 Contact</button>
                             <button
                                 class="nav-btn text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition"
-                                data-section="tickets">🎫 Tickets</button>
+                                data-section="tickets" onclick="showSection('tickets')">🎫 Tickets</button>
                             <button
                                 class="nav-btn text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition"
-                                data-section="chat">💻 Chat Live</button>
+                                data-section="chat" onclick="showSection('chat')">💻 Chat Live</button>
+                            <button
+                                class="nav-btn text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition"
+                                data-section="avis" onclick="showSection('avis')">⭐ Avis</button>
                         </div>
                     </div>
 
@@ -183,7 +188,7 @@
             </div>
         </section>
 
-        <!-- Autres sections (Devis, Contact, Tickets, Chat) – même style appliqué -->
+        <!-- Autres sections (Devis, Contact, Tickets, Chat) -->
         <section id="devisSection" class="hidden container mx-auto px-4 py-8 flex-1">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">📧 Gestion des Devis</h1>
             <div
@@ -246,6 +251,7 @@
             </div>
         </section>
 
+        <!-- Section Avis -->
         <section id="avisSection" class="hidden container mx-auto px-4 py-8 flex-1">
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-900 dark:text-white">⭐ Gestion des Avis</h1>
@@ -255,32 +261,30 @@
                 </button>
             </div>
 
+            <!-- Stats -->
             <div id="avisStats"></div>
 
+            <!-- Liste des avis -->
             <div id="avisList" class="space-y-4">
                 <p class="text-gray-500 dark:text-gray-400 text-center py-8">Chargement...</p>
             </div>
         </section>
     </div>
 
-    <div id="newAvisModal"
-        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50">
+    <!-- Modal Ajouter Avis -->
+    <div id="newAvisModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50">
         <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Ajouter un Avis</h2>
-
+            
             <form id="newAvisForm" onsubmit="createAvis(event)" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nom du client
-                        *</label>
-                    <input type="text" id="avisNom" required
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600"
-                        placeholder="Ex: Marc Dupont">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nom du client *</label>
+                    <input type="text" id="avisNom" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Ex: Marc Dupont">
                 </div>
-
+                
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Note *</label>
-                    <select id="avisNote"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
+                    <select id="avisNote" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                         <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
                         <option value="4">⭐⭐⭐⭐ (4/5)</option>
                         <option value="3">⭐⭐⭐ (3/5)</option>
@@ -288,20 +292,15 @@
                         <option value="1">⭐ (1/5)</option>
                     </select>
                 </div>
-
+                
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texte de l'avis
-                        *</label>
-                    <textarea id="avisTexte" required rows="4"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none"
-                        placeholder="Ex: Service rapide et efficace! Je recommande..."></textarea>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texte de l'avis *</label>
+                    <textarea id="avisTexte" required rows="4" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none" placeholder="Ex: Service rapide et efficace! Je recommande..."></textarea>
                 </div>
-
+                
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Service rendu
-                        *</label>
-                    <select id="avisService"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Service rendu *</label>
+                    <select id="avisService" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                         <option value="Réparation PC">Réparation PC</option>
                         <option value="Assemblage PC">Assemblage PC</option>
                         <option value="Installation Windows">Installation Windows</option>
@@ -311,21 +310,17 @@
                         <option value="Autre">Autre</option>
                     </select>
                 </div>
-
+                
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" id="avisApprouve" checked
-                        class="w-5 h-5 text-violet-600 rounded focus:ring-2 focus:ring-violet-600">
-                    <label for="avisApprouve" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Approuver
-                        immédiatement</label>
+                    <input type="checkbox" id="avisApprouve" checked class="w-5 h-5 text-violet-600 rounded focus:ring-2 focus:ring-violet-600">
+                    <label for="avisApprouve" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Approuver immédiatement</label>
                 </div>
-
+                
                 <div class="flex gap-4 mt-6">
-                    <button type="submit"
-                        class="flex-1 bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
                         Ajouter l'avis
                     </button>
-                    <button type="button" onclick="document.getElementById('newAvisModal').classList.add('hidden')"
-                        class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <button type="button" onclick="document.getElementById('newAvisModal').classList.add('hidden')" class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                         Annuler
                     </button>
                 </div>
@@ -333,25 +328,22 @@
         </div>
     </div>
 
-    <div id="editAvisModal"
-        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50">
+    <!-- Modal Modifier Avis -->
+    <div id="editAvisModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4 z-50">
         <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Modifier l'Avis</h2>
-
+            
             <form id="editAvisForm" onsubmit="updateAvis(event)" class="space-y-4">
                 <input type="hidden" id="editAvisId">
-
+                
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nom du client
-                        *</label>
-                    <input type="text" id="editAvisNom" required
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nom du client *</label>
+                    <input type="text" id="editAvisNom" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                 </div>
-
+                
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Note *</label>
-                    <select id="editAvisNote"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
+                    <select id="editAvisNote" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                         <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
                         <option value="4">⭐⭐⭐⭐ (4/5)</option>
                         <option value="3">⭐⭐⭐ (3/5)</option>
@@ -359,19 +351,15 @@
                         <option value="1">⭐ (1/5)</option>
                     </select>
                 </div>
-
+                
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texte de l'avis
-                        *</label>
-                    <textarea id="editAvisTexte" required rows="4"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none"></textarea>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texte de l'avis *</label>
+                    <textarea id="editAvisTexte" required rows="4" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none"></textarea>
                 </div>
-
+                
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Service rendu
-                        *</label>
-                    <select id="editAvisService"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Service rendu *</label>
+                    <select id="editAvisService" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                         <option value="Réparation PC">Réparation PC</option>
                         <option value="Assemblage PC">Assemblage PC</option>
                         <option value="Installation Windows">Installation Windows</option>
@@ -381,21 +369,17 @@
                         <option value="Autre">Autre</option>
                     </select>
                 </div>
-
+                
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" id="editAvisApprouve"
-                        class="w-5 h-5 text-violet-600 rounded focus:ring-2 focus:ring-violet-600">
-                    <label for="editAvisApprouve" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Avis
-                        approuvé</label>
+                    <input type="checkbox" id="editAvisApprouve" class="w-5 h-5 text-violet-600 rounded focus:ring-2 focus:ring-violet-600">
+                    <label for="editAvisApprouve" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Avis approuvé</label>
                 </div>
-
+                
                 <div class="flex gap-4 mt-6">
-                    <button type="submit"
-                        class="flex-1 bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transition">
                         Enregistrer
                     </button>
-                    <button type="button" onclick="document.getElementById('editAvisModal').classList.add('hidden')"
-                        class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <button type="button" onclick="document.getElementById('editAvisModal').classList.add('hidden')" class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                         Annuler
                     </button>
                 </div>
@@ -406,6 +390,9 @@
     <script src="firebase-config.js"></script>
     <script src="admin-functions.js"></script>
     <script>
+        // ============================================================
+        // Gestion Dark Mode (desktop + mobile)
+        // ============================================================
         document.addEventListener('DOMContentLoaded', () => {
             const html = document.documentElement;
             const savedTheme = localStorage.getItem('theme') || 'light';
