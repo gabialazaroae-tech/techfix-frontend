@@ -141,8 +141,14 @@ async function loadUserTickets() {
         // Écouter les tickets de l'utilisateur en temps réel
         db.collection('tickets')
             .where('userId', '==', currentUser.uid)
-            .orderBy('updatedAt', 'desc')
             .onSnapshot(snapshot => {
+                // Trier manuellement côté client
+                const sortedDocs = snapshot.docs.sort((a, b) => {
+                    const aTime = a.data().updatedAt?.toMillis() || 0;
+                    const bTime = b.data().updatedAt?.toMillis() || 0;
+                    return bTime - aTime;
+                });
+
                 if (snapshot.empty) {
                     ticketsList.innerHTML = `
                         <div class="text-center py-12">
@@ -155,7 +161,7 @@ async function loadUserTickets() {
                     return;
                 }
 
-                ticketsList.innerHTML = snapshot.docs.map(doc => {
+                ticketsList.innerHTML = sortedDocs.map(doc => {
                     const data = doc.data();
                     return `
                         <div onclick="openTicketDetail('${doc.id}')" class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer">
@@ -243,6 +249,15 @@ document.getElementById('newTicketForm').addEventListener('submit', async (e) =>
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        // Message de bienvenue automatique
+        await db.collection('tickets').doc(ticketRef.id).collection('messages').add({
+            userId: 'system',
+            userName: 'TechFix Support',
+            message: 'Bonjour! Merci pour votre message. Un membre de notre équipe vous répondra dans les plus brefs délais.',
+            isAdmin: true,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
         // Fermer le modal
         document.getElementById('newTicketModal').classList.add('hidden');
         document.getElementById('newTicketForm').reset();
@@ -294,6 +309,7 @@ async function openTicketDetail(ticketId) {
 function loadTicketMessages(ticketId) {
     const messagesDiv = document.getElementById('ticketMessages');
 
+    // Arrêter l'écoute précédente si elle existe
     if (unsubscribeTicketMessages) {
         unsubscribeTicketMessages();
     }
@@ -370,15 +386,6 @@ document.getElementById('replyForm').addEventListener('submit', async (e) => {
             userName: userName,
             message: message,
             isAdmin: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        // Message de bienvenue automatique
-        await db.collection('tickets').doc(ticketRef.id).collection('messages').add({
-            userId: 'system',
-            userName: 'TechFix Support',
-            message: 'Bonjour! Merci pour votre message. Un membre de notre équipe vous répondra dans les plus brefs délais.',
-            isAdmin: true,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
